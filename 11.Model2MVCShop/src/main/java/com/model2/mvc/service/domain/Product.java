@@ -1,7 +1,9 @@
 package com.model2.mvc.service.domain;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 public class Product {
@@ -124,4 +126,16 @@ public class Product {
 		return productList;
 	}
 	
+	public Map<String,String> toMap() {
+		Map<String,String> productMap = new HashMap<>();
+		productMap.put("prodNo",String.valueOf(prodNo));
+		productMap.put("prodName",prodName);
+		productMap.put("fileName",(fileName != null?"<img src='../images/uploadFiles/"+fileName+"'/>":"<img src='http://placehold.it/400x400'/>"));
+		productMap.put("prodDetail",prodDetail);
+		productMap.put("manuDate",manuDate);
+		productMap.put("price",String.valueOf(price));
+		productMap.put("regDate",String.valueOf(regDate));
+		productMap.put("stock",String.valueOf(stock));
+		return productMap;
+	}
 }

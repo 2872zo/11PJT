@@ -97,11 +97,6 @@ public class ProductController {
 		String targetURI = null;
 		Product product = productService.getProduct(prodNo);
 
-		// list 형태로 product 전달
-		// domain에 toList() 추가
-		map.put("list", product.toList());
-		map.put("product", product);
-		
 		//리뷰 출력을 위한 데이터 조회
 		Search search = new Search();
 		search.setProdNo(prodNo);
@@ -127,20 +122,23 @@ public class ProductController {
 			unitList.add(unitDetail);
 		}
 		
-		map.put("columList", columList);
-		map.put("title", "상품 리뷰");
-		map.put("unitList", unitList);
-		
-		
-		
-		
-		
 		if (menu == null || menu.equals("search")) {
 			targetURI = "forward:/product/getProduct.jsp";
 		} else if (menu.equals("manage")) {
 			targetURI = "forward:/product/updateProductView";
 		}
 
+		
+		// list 형태로 product 전달
+		// domain에 toList() 추가
+		map.put("map", product.toMap());
+		map.put("reviewCount", reviewCount);
+		map.put("product", product);
+		map.put("avgRating", 85);
+		
+		
+		
+		
 		if (cookie == null) {
 			cookie = new Cookie("history", String.valueOf(prodNo));
 		} else if(cookie.getValue().indexOf(String.valueOf(prodNo)) == -1){
@@ -217,7 +215,8 @@ public class ProductController {
 		columList.add("현재상태");
 
 		// UnitList 설정
-		List unitList = makeProductList(menu, (List<Product>) map.get("list"), currentPage);
+//		List unitList = makeProductList(menu, (List<Product>) map.get("list"), currentPage);
+		List unitList = makeProductListForMap((List<Product>) map.get("list"));
 
 		// 출력을 위한 Obejct들
 		
@@ -330,6 +329,35 @@ public class ProductController {
 			
 			//1~5과정을 통해 만들어진 리스트를 삽입
 			unitList.add(unitDetail);
+		}
+		return unitList;
+	}
+	
+	private List makeProductListForMap(List<Product> productList) {
+		List<Map> unitList = new Vector<Map>();
+		Map<String,String> unitMap = null;
+		
+		for (int i = 0; i < productList.size(); i++) {
+			unitMap = new HashMap<String, String>();
+			//제품 이름
+			unitMap.put("prodName",productList.get(i).getProdName());
+			//제품 가격
+			unitMap.put("price",String.valueOf(productList.get(i).getPrice()));
+			//제품 사진
+			if(productList.get(i).getFileName() != null) {
+				unitMap.put("fileName",String.valueOf(productList.get(i).getFileName()));
+			}else {
+				unitMap.put("fileName","../empty.GIF");
+			}
+			//평균 평점
+			unitMap.put("avgRating", "3");
+			//판매 개수
+			unitMap.put("salesVolume", "2");
+			
+			
+			
+			//1~5과정을 통해 만들어진 리스트를 삽입
+			unitList.add(unitMap);
 		}
 		return unitList;
 	}

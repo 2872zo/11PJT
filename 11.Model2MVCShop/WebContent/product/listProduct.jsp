@@ -9,6 +9,7 @@
 <head>
 <title>구매 목록 조회</title>
 
+<!--  ///////////////////////// 툴바 이용을 위한 lib START ////////////////////////// -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
 <!--   jQuery , Bootstrap CDN  -->
@@ -30,42 +31,29 @@
            padding-top : 70px;
        }
 </style>
-  	
+<!--  ///////////////////////// 툴바 이용을 위한 lib END ////////////////////////// -->
 <!--  ///////////////////////// JavaScript ////////////////////////// -->
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="/css/thumbnail.css" rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/javascript/CommonScript.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	var prodNoList = [${prodNoList}];
 	var prodFileList = [${prodFileList}];
 
+	//tu
+	$('[data-toggle="tooltip"]').tooltip();
+	
 	//제품 상세정보
-	$("tr.ct_list_pop td:nth-child(3)").wrapInner("<ins></ins>");
-	$("tr.ct_list_pop td:nth-child(3)").on("click",function(){
-		location.href = "/product/getProduct?prodNo="+prodNoList[$($("td",$(this).parent())[0]).text()-1];
-	});	
-	
-	//이미지 띄우기
-	$( "#dialog" ).dialog({
-      autoOpen: false
-    });
-	$("tr.ct_list_pop td:nth-child(3)").hover(
-	function(){
-		$(this).css("background","#dcdcdc");
-// 		$(this).parent().next().find("td").append("<p id='imgfile'> <img src='../images/uploadFiles/" + prodFileList[$("tr.ct_list_pop td:nth-child(3)").index($(this))] + "' width='200'/> </p>");
-		$("#dialog").append("<p id='imgfile'> <img src='../images/uploadFiles/" + prodFileList[$("tr.ct_list_pop td:nth-child(3)").index($(this))] + "' width='200'/> </p>");
-		$( "#dialog" ).dialog( "option", "position", { my: "left top", at: "left bottom", of: $(this) } );
-		$( "#dialog" ).dialog( "open" );
-	},
-	function(){
-		$( "#dialog" ).dialog( "close" );
-		$(this).css("background","");
-		$("#imgfile").remove();
+	$(".btn-primary").on("click",function(){
+// 		alert($(".btn-primary").index($(this)));
+		location.href = "/product/getProduct?prodNo="+prodNoList[$(".btn-primary").index($(this))];
 	});
-	
 	
 	//search 기능
 	$("#searchKeyword").keydown(function(key){
@@ -254,7 +242,8 @@ function fncUpdateTranCodeByProd(currentPage, prodNo){
 
 </script>
 
-<c:import url="/layout/toolbar.jsp"></c:import>
+<c:if test="${!empty user}"><c:import url="/layout/toolbar.jsp"></c:import></c:if>
+<c:if test="${empty user}"><c:import url="/layout/toolbar2.jsp"></c:import></c:if>
 
 </head>
 <body bgcolor="#ffffff" text="#000000">
@@ -263,7 +252,8 @@ function fncUpdateTranCodeByProd(currentPage, prodNo){
 
 <form name="detailForm" action="/product/listProduct" method="post">
 
-<c:import url="../common/listPrinter.jsp"/>
+<%-- <c:import url="../common/listPrinter.jsp"/> --%>
+<c:import url="../common/thumbnailListPrinter.jsp"/>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
@@ -276,21 +266,6 @@ function fncUpdateTranCodeByProd(currentPage, prodNo){
 			<c:import url="../common/pageNavigator.jsp"/>
 		</td>
 	</tr>
-<!-- 	<tr> -->
-<!-- 		<td align="center"> -->
-<!-- 			<a href="#" class="sort">상품 번호 오름차순</a> -->
-<!-- 			&nbsp; -->
-<!-- 			<a href="#" class="sort">상품 번호 내림차순</a> -->
-<!-- 			&nbsp; -->
-<!-- 			<a href="#" class="sort">상품 이름 오름차순</a> -->
-<!-- 			&nbsp; -->
-<!-- 			<a href="#" class="sort">상품 이름 내림차순</a> -->
-<!-- 			&nbsp; -->
-<!-- 			<a href="#" class="sort">가격 낮은순</a> -->
-<!-- 			&nbsp; -->
-<!-- 			<a href="#" class="sort">가격 높은순</a> -->
-<!-- 		</td> -->
-<!-- 	</tr> -->
 	<tr>
 		<td align="center">
 			<a href="#" id="hidding">재고없는 상품 숨기기</a>

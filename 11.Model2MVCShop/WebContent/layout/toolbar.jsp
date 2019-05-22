@@ -74,21 +74,31 @@
 	                     </a>
 	                     <ul class="dropdown-menu">
 	                         <li><a href="#">상 품 검 색</a></li>
-	                         
-	                         <c:if test="${sessionScope.user.role == 'user'}">
-	                           <li><a href="#">구매이력조회</a></li>
-	                         </c:if>
-	                         
 	                         <li><a href="#">최근본상품</a></li>
 	                         <li class="divider"></li>
 	                         <li><a href="#">etc..</a></li>
 	                     </ul>
 	                 </li>
 	                 
-	                 <li><a href="#">etc...</a></li>
+	                 <!-- 마이페이지 DrowDown -->
+	                 <li class="dropdown">
+	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+	                         <span >마이페이지</span>
+	                         <span class="caret"></span>
+	                     </a>
+	                     <ul class="dropdown-menu">
+	                          <c:if test="${sessionScope.user.role == 'user'}">
+	                           <li><a href="#">구매이력조회</a></li>
+	                          </c:if>
+	                          <c:if test="${sessionScope.user.role == 'admin'}">
+	                           <li><a href="#">거래내역</a></li>
+	                          </c:if>
+	                     </ul>
+	                 </li>
 	             </ul>
-	             
+
 	             <ul class="nav navbar-nav navbar-right">
+	             	<li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
 	                <li><a href="#">로그아웃</a></li>
 	            </ul>
 		</div>
@@ -120,28 +130,34 @@
 			}); 
 		 });
 		
-		//=============  개인정보조회회 Event  처리 =============	
+		//=============  개인정보조회 Event  처리 =============	
 	 	$( "a:contains('개인정보조회')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
 		});
 		
 	 	//=============  상품검색 Event  처리 =============	
-	 	$( "a:contains('상품검색')" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/product/listProduct?menu=search");
-		});
-	 	
-	 	//=============  상품검색 Event  처리 =============	
 	 	$( "a:contains('상 품 검 색')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/product/listProduct?menu=search");
 		});
 	 	
-	 	//=============  상품검색 Event  처리 =============	
+	 	//=============  최근본상품 Event  처리 =============	
 	 	$( "a:contains('최근본상품')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","javascript:history()");
+		});
+	 	
+	 	//=============  구매이력조회, 거래관리 Event  처리 =============	
+	 	$( "a:contains('구매이력조회'), a:contains('거래관리')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/purchase/listPurchase");
+		});
+	 	
+	 	//=============  장바구니 Event  처리 =============	
+	 	$( ".glyphicon-shopping-cart" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/purchase/viewCart");
 		});
 		
 	</script>  

@@ -5,10 +5,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title>상품등록</title>
+<!--  ///////////////////////// 툴바 이용을 위한 lib START ////////////////////////// -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+<!--   jQuery , Bootstrap CDN  -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+<!-- Bootstrap Dropdown Hover CSS -->
+  <link href="/css/animate.min.css" rel="stylesheet">
+  <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+  
+   <!-- Bootstrap Dropdown Hover JS -->
+  <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+
+<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
+<style>
+       body {
+           padding-top : 70px;
+       }
+</style>
+<!--  ///////////////////////// 툴바 이용을 위한 lib END ////////////////////////// -->
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$("#confirm").on("click",function(){
@@ -22,6 +43,10 @@
 	});
 </script>
 
+<c:if test="${!empty user}"><c:import url="/layout/toolbar.jsp"></c:import></c:if>
+<c:if test="${empty user}"><c:import url="/layout/toolbar2.jsp"></c:import></c:if>
+
+<title>상품등록</title>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">

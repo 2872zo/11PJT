@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="ProductMapper">
+
+	<resultMap type="com.model2.mvc.service.domain.Product" id="productResultMap">
+		<result property="prodNo"	 	column="prod_no"/>
+		<result property="prodName"	 	column="prod_name"/>
+		<result property="prodDetail" 	column="prod_detail" 		jdbcType="VARCHAR"/>
+		<result property="price" 		column="price" 				jdbcType="NUMERIC"/>
+		<result property="manuDate" 	column="manufacture_day"	jdbcType="VARCHAR"/>
+		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"/>
+		<result property="regDate" 		column="reg_date" 			jdbcType="DATE"/>
+		<result property="proTranCode" 	column="tran_status_code"	jdbcType="VARCHAR"/>
+		<result property="stock"		column="stock"				jdbcType="NUMERIC"/>
+		<result property="tranCount"	column="count" 				jdbcType="NUMERIC"/>
+	</resultMap>
+
+	<sql id="select-product">
+		SELECT
+		  p.prod_no				
+		, p.prod_name           
+		, p.prod_detail         
+		, p.manufacture_day           
+		, p.price               
+		, p.image_file            
+		, p.reg_date  
+		, p_s.stock
+		, ct.count
+		FROM product p, product_stock p_s,( SELECT
+											p.prod_no, COUNT(*) count
+											FROM transaction t, product p
+											WHERE p.prod_no = t.prod_no
+											GROUP BY p.prod_no) ct
+		WHERE p.prod_no = p_s.prod_no
+		AND p.prod_no = ct.prod_no(+)
+	</sql>
+	
+	<sql id="select-product-trancode">
+		SELECT
+		p.prod_no				
+		, p.prod_name           
+		, p.prod_detail         
+		, p.manufacture_day           
+		, p.price               
+		, p.image_file            
+		, p.reg_date            
+		, t.tran_status_code    
+		, p_s.stock
+		FROM product p, product_stock p_s, (SELECT
+						 					prod_no, tran_status_code
+						 					FROM transaction
+						 					WHERE tran_status_code != 0
+						 					OR tran_status_code IS NULL) t
+		WHERE p.prod_no = t.prod_no(+)
+		AND p.prod_no = p_s.prod_no
+	</sql>
+
+
+	<sql id="select-product-list">
+	<include refid="select-product"/>
+	<if test="hiddingEmptyStock"> AND p_s.stock > 0</if>
+		<if test="!(searchKeyword == null or searchKeyword == '')">
+			<choose>
+				<when test="searchCondition  == 0">
+					<if test="splitKeyword == null">
+						AND p.prod_no = #{searchKeyword:INTEGER}
+					</if>
+					<if test="splitKeyword != null">
+						AND p.prod_no BETWEEN #{splitKeyword[0]:INTEGER} AND #{splitKeyword[1]:INTEGER}
+					</if>
+				</when>
+				<when test="searchCondition == 1">
+					AND p.prod_name like '%${searchKeyword}%'
+				</when>
+				<when test="searchCondition  == 2">
+					<if test="splitKeyword == null">
+						AND p.price = #{searchKeyword:INTEGER}
+					</if>
+					<if test="splitKeyword != null">
+						AND p.price BETWEEN #{splitKeyword[0]:INTEGER} AND #{splitKeyword[1]:INTEGER}
+					</if>
+				</when>
+			</choose>
+		</if>
+		<choose>
+			<when test="sortCode == 0"> ORDER BY p.prod_no 		 	 </when>
+			<when test="sortCode == 3"> ORDER BY p.prod_no desc 	 </when>
+			<when test="sortCode == 1"> ORDER BY p.prod_name 		 </when>
+			<when test="sortCode == 4"> ORDER BY p.prod_name desc 	 </when>
+			<when test="sortCode == 2"> ORDER BY p.price 			 </when>
+			<when test="sortCode == 5"> ORDER BY p.price desc 		 </when>
+			<otherwise> ORDER BY p.prod_no </otherwise>
+		</choose>
+	</sql>
+
+	<insert id="addProduct" parameterType="com.model2.mvc.service.domain.Product">
+		INSERT 
+		INTO product ( prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date )
+		VALUES ( SEQ_PRODUCT_PROD_NO.NEXTVAL, 
+				 #{prodName}, 
+				 #{prodDetail:VARCHAR}, 
+				 #{manuDate:VARCHAR},
+				 <if test="price != 0"> #{price} </if> 
+				 <if test="price == 0"> 0 </if>,
+				 #{fileName:VARCHAR},
+				 SYSDATE)
+	</insert>
+	
+	<select id="getProduct" parameterType="int" resultMap="productResultMap">
+		<include refid="select-product"/>
+		AND p.prod_no = #{value}
+	</select>
+	
+	<update id="updateProduct" parameterType="com.model2.mvc.service.domain.Product">
+  		UPDATE product 
+  		<set>
+  			<if test="prodName != null">	prod_name = #{prodName} ,</if>
+  			<if test="prodDetail != null">	prod_detail = #{prodDetail} ,</if>
+  		    <if test="manuDate != null">	manufacture_day = #{manuDate} ,</if>
+  		    <if test="price != 0">			price = #{price} ,</if>
+  		    <if test="fileName != null">	image_file = #{fileName} ,</if>
+  		</set>
+  		<where>
+  			prod_no = #{prodNo}
+  		</where> 										
+  	</update>
+	
+	<delete id="deleteProduct" parameterType="int">
+		DELETE
+		FROM product 
+		WHERE prod_no = #{value}
+	</delete>
+	
+	<select id="makeTotalCount" parameterType="com.model2.mvc.common.Search" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		(<include refid="select-product-list"/>)
+	</select>
+	
+	<select id="getProductList" parameterType="com.model2.mvc.common.Search" resultMap="productResultMap">
+		SELECT
+		*
+		FROM
+		(SELECT
+		 inner_table.*, ROWNUM AS row_seq
+		 FROM 
+		 (<include refid="select-product-list"/>) inner_table
+		 <where>
+		 	ROWNUM &lt;= #{endRowNum}
+		 </where>)
+		<where>
+			row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+		</where>
+	</select>
+</mapper>

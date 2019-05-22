@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="ProductStockMapper">
+
+	<resultMap type="purchase" id="purchaseResultMap">
+		<result property="tranNo"		 			column="tran_no"			/>
+		<result property="purchaseProd.prodNo"	 	column="prod_no"			/>
+		<result property="buyer.userId" 	        column="buyer_id" 			/>
+		<result property="paymentOption"            column="payment_option" 	jdbcType="VARCHAR"/>
+		<result property="receiverName"             column="receiver_name"		jdbcType="VARCHAR"/>
+		<result property="receiverPhone"            column="receiver_phone" 	jdbcType="VARCHAR"/>
+		<result property="dlvyAddr" 	            column="demailaddr" 		jdbcType="VARCHAR"/>
+		<result property="dlvyRequest"              column="dlvy_request" 		jdbcType="VARCHAR"/>
+		<result property="tranCode" 	            column="tran_status_code" 	jdbcType="VARCHAR"/>
+		<result property="orderDate" 	            column="order_date" 		jdbcType="DATE"/>
+		<result property="dlvyDate" 	            column="dlvy_date" 			jdbcType="VARCHAR"/>
+		<result property="quantity"					column="quantity"			jdbcType="NUMERIC"/>
+	</resultMap>
+	
+	<resultMap type="com.model2.mvc.service.domain.Product" id="productResultMap">
+		<result property="prodNo"	 	column="prod_no"/>
+		<result property="prodName"	 	column="prod_name"/>
+		<result property="prodDetail" 	column="prod_detail" 		jdbcType="VARCHAR"/>
+		<result property="price" 		column="price" 				jdbcType="NUMERIC"/>
+		<result property="manuDate" 	column="manufacture_day"	jdbcType="VARCHAR"/>
+		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"/>
+		<result property="regDate" 		column="reg_date" 			jdbcType="DATE"/>
+		<result property="proTranCode" 	column="tran_status_code"	jdbcType="VARCHAR"/>
+		<result property="stock"		column="stock"				jdbcType="NUMERIC"/>
+		<result property="tranCount"	column="count" 				jdbcType="NUMERIC"/>
+	</resultMap>
+
+	<insert id="addProductStock" parameterType="product">
+		INSERT
+		INTO product_stock (prod_no, stock)
+		VALUES ( SEQ_PRODUCT_PROD_NO.CURRVAL, #{stock} )
+	</insert>
+	
+	<update id="updateProductStock" parameterType="product">
+		UPDATE
+		product_stock
+		<set>
+			stock = #{stock}
+		</set>
+		<where>
+			prod_no = #{prodNo}
+		</where>
+	</update>
+	
+	<update id="decreaseStock" parameterType="purchase">
+		UPDATE
+		product_stock
+		<set>
+			stock = stock - #{quantity}
+		</set>
+		<where>
+			prod_no = #{purchaseProd.prodNo}
+		</where>
+	</update>
+	
+	<update id="cancelPurchase" parameterType="purchase">
+  		UPDATE
+  		product_stock
+  		SET stock = stock + #{quantity}
+  		<where>
+  			prod_no = #{purchaseProd.prodNo}
+  		</where> 
+  	</update>
+</mapper>

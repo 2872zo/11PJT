@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="CartMapper">
+
+	<resultMap type="com.model2.mvc.service.domain.Product" id="productResultMap">
+		<result property="prodNo"	 	column="prod_no"/>
+		<result property="prodName"	 	column="prod_name"/>
+		<result property="prodDetail" 	column="prod_detail" 		jdbcType="VARCHAR"/>
+		<result property="price" 		column="price" 				jdbcType="NUMERIC"/>
+		<result property="manuDate" 	column="manufacture_day"	jdbcType="VARCHAR"/>
+		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"/>
+		<result property="regDate" 		column="reg_date" 			jdbcType="DATE"/>
+		<result property="proTranCode" 	column="tran_status_code"	jdbcType="VARCHAR"/>
+		<result property="stock"		column="stock"				jdbcType="NUMERIC"/>
+		<result property="tranCount"	column="count" 				jdbcType="NUMERIC"/>
+	</resultMap>
+
+	<select id="getCart" parameterType="Search" resultMap="productResultMap">
+	SELECT
+		p.*,p_s.stock
+	FROM product p INNER JOIN product_stock p_s ON p.prod_no = p_s.prod_no
+	WHERE p.prod_no IN (SELECT
+						c.prod_no
+						FROM cart c, users u
+						WHERE u.user_id = c.user_id
+						AND c.user_id = #{userId})
+	ORDER BY p.prod_no
+	</select>
+	
+	<insert id="addCart" parameterType="search">
+		INSERT
+		INTO cart ( user_id, prod_no)
+		VALUES (#{userId},#{prodNo})
+	</insert>
+	
+	<update id="updateCart" parameterType="search">
+		UPDATE
+		cart
+		SET prod_no = #{prodNo}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<delete id="deleteCart" parameterType="search">
+		DELETE
+		cart
+		WHERE prod_no = #{prodNo}
+		AND user_id = #{userId}
+	</delete>
+</mapper>

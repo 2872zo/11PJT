@@ -1,3 +1,83 @@
+function CheckSpace(str){
+	var spacePattern = /\s/;
+	return spacePattern.test(str);
+}
+
+function CheckSpecial(str){
+	var specialPattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi; 
+	return specialPattern.test(str);
+}
+
+function replaceAll(str, searchStr, replaceStr) {
+	  return str.split(searchStr).join(replaceStr);
+}
+
+function ValidationCheck(tableName, colum, valueColum, value, handleData){
+	var paramData = {tableName:tableName, colum:colum, valueColum:valueColum, value:value };
+	var jsonData = JSON.stringify(paramData);
+	
+	$.ajax({
+		url:"/util/json/validationCheck",
+		method:"POST",
+		data : jsonData,
+		dataType : "text",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		error : function(status,code,errorText){
+			alert("error : " + status.status + " " + errorText);
+		},
+		success : function(textData, status){
+			handleData(textData);
+		}
+	});
+}
+
+function GetData(tableName, colum, valueColum, value, handleData){
+	var paramData = {tableName:tableName, colum:colum, valueColum:valueColum, value:value };
+	var jsonData = JSON.stringify(paramData);
+	
+	$.ajax({
+		url:"/util/json/getData",
+		method:"POST",
+		data : jsonData,
+		dataType : "text",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		error : function(status,code,errorText){
+			alert("error : " + status.status + " " + errorText);
+		},
+		success : function(textData, status){
+			handleData(textData);
+		}
+	});
+}
+
+function UpdateData(tableName, setColum, setValue, whereColum, whereValue, handleData){
+	var jsonObj = {tableName:tableName,setColum:setColum,setValue:setValue,whereValue:whereValue,whereColum:whereColum};
+	var jsonString = JSON.stringify(jsonObj);
+	
+	$.ajax({
+		url: "/util/json/updateData",
+		method:"POST",
+		dataType : "json",
+		headers : {
+			"Accept" : "application/json",
+			"Content-Type" : "application/json"
+		},
+		data:jsonString,
+		error : function(status,code,errorText){
+			alert("error : " + status.status + " " + errorText);
+		},
+		success : function(textData){
+			handleData(textData);
+		}
+	});
+}
+
 function FormValidation(form){
      for(vi=0; vi<form.elements.length;vi++){
         var formField = form.elements[vi];

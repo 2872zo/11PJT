@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="ReviewMapper">
+
+	<resultMap type="com.model2.mvc.service.domain.Review" id="reviewResultMap">
+		<result property="reviewNo"	 	column="review_no"/>
+		<result property="prodNo"	 	column="prod_no"/>
+		<result property="userId"	 	column="user_id"/>
+		<result property="tranNo"	 	column="tran_no"/>
+		<result property="title" 		column="title" 				jdbcType="VARCHAR"/>
+		<result property="text" 		column="text" 				jdbcType="VARCHAR"/>
+		<result property="fileName" 	column="image_file" 		jdbcType="VARCHAR"/>
+		<result property="rating" 		column="rating" 			jdbcType="NUMERIC"/>
+		<result property="regDate" 		column="reg_date" 			jdbcType="DATE"/>
+	</resultMap>
+
+	<insert id="addReview" parameterType="search">
+		INSERT
+		INTO review ( review_no, prod_no, user_id, title, text, image_file, rating, reg_date, tran_no)
+		VALUES (REVIEW_SEQ.NEXTVAL, #{prodNo}, #{userId}, #{title}, #{text:VARCHAR}, #{fileName:VARCHAR}, #{rating}, SYSDATE, #{tranNo})
+	</insert>
+
+
+	<select id="getReview" parameterType="int" resultMap="reviewResultMap">
+		SELECT
+		*
+		FROM review
+		WHERE review_no = #{value}
+	</select>
+	
+	<select id="getReviewBytranNo" parameterType="Map" resultMap="reviewResultMap">
+		SELECT
+		*
+		FROM review
+		WHERE tran_no = #{value}
+	</select>
+	
+	<select id="getReviewList" parameterType="search" resultMap="reviewResultMap">
+		SELECT
+		*
+		FROM review
+		<where>
+			<if test="userId != null">user_id = #{userId}</if>
+			<if test="prodNo != null">AND prod_no = #{prodNo}</if>
+		</where> 
+	</select>
+	
+	<update id="updateReview" parameterType="review">
+		UPDATE
+		review
+		<set>
+			<if test="title != null">title = #{title}</if>
+			<if test="text != null">text = #{text}</if>
+			<if test="image_file != null">image_file = #{fileName}</if>
+			<if test="rating != null">rating = #{rating}</if>
+		</set> 
+		WHERE review_no = #{reviewNo}
+	</update>
+	
+	<delete id="deleteReview" parameterType="int">
+		DELETE
+		review
+		WHERE review_no = #{value}  
+	</delete>
+	
+	<select id="makeTotalCount" parameterType="search" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		(SELECT
+		*
+		FROM review
+		<where>
+<!-- 			<if test="userId != null">user_id = #{userId}</if> -->
+<!-- 			<if test="prodNo != null">AND prod_no = #{prodNo}</if> -->
+		prod_no = ${prodNo}
+		</where> )
+	</select>
+</mapper>

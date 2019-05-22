@@ -104,20 +104,4 @@ public class User {
 		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
 			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate;
 	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////
-	// JSON ==> Domain Object  Binding을 위해 추가된 부분
-	// POJO 의 중요성
-	public void setPhone1(String phone1) {
-		this.phone1 = phone1;
-	}
-	
-	public void setPhone2(String phone2) {
-		this.phone2 = phone2;
-	}
-	
-	public void setPhone3(String phone3) {
-		this.phone3 = phone3;
-	}
-	/////////////////////////////////////////////////////////////////////////////////////////
 }

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="PurchaseMapper">
+
+	<resultMap type="purchase" id="purchaseResultMap">
+		<result property="tranNo"		 			column="tran_no"			/>
+		<result property="purchaseProd.prodNo"	 	column="prod_no"			/>
+		<result property="buyer.userId" 	        column="buyer_id" 			/>
+		<result property="paymentOption"            column="payment_option" 	jdbcType="VARCHAR"/>
+		<result property="receiverName"             column="receiver_name"		jdbcType="VARCHAR"/>
+		<result property="receiverPhone"            column="receiver_phone" 	jdbcType="VARCHAR"/>
+		<result property="dlvyAddr" 	            column="demailaddr" 		jdbcType="VARCHAR"/>
+		<result property="dlvyRequest"              column="dlvy_request" 		jdbcType="VARCHAR"/>
+		<result property="tranCode" 	            column="tran_status_code" 	jdbcType="VARCHAR"/>
+		<result property="orderDate" 	            column="order_date" 		jdbcType="DATE"/>
+		<result property="dlvyDate" 	            column="dlvy_date" 			jdbcType="VARCHAR"/>
+		<result property="quantity"					column="quantity"			jdbcType="NUMERIC"/>
+	</resultMap>
+
+
+	<sql id="select-purchase-list">
+		SELECT
+		tran_no		
+		,prod_no		
+		,buyer_id	
+		,payment_option
+		,receiver_name	
+		,receiver_phone
+		,demailaddr	
+		,dlvy_request
+		,tran_status_code
+		,order_date	
+		,dlvy_date		   
+		,quantity 
+		FROM transaction	
+		<where>
+			<if test="userId != null and userId != 'admin'.toString()">buyer_id = #{userId}</if>
+			<if test="prodNo != 0 and (userId !=null and userId == 'admin'.toString())">AND prod_no = #{prodNo}</if>
+			<if test="hiddingEmptyStock">AND tran_status_code IN (1,2)</if>
+			<if test="sortCode == 4">AND tran_status_code = 0</if>
+			<if test="sortCode == 1">AND tran_status_code = 1</if>
+			<if test="sortCode == 2">AND tran_status_code = 2</if>
+			<if test="sortCode == 3">AND tran_status_code = 3</if>
+		</where>	
+	</sql>
+
+	<insert id="addPurchase" parameterType="purchase">
+		INSERT 
+		INTO transaction ( 
+				tran_no		
+				,prod_no
+				,buyer_id	
+				,payment_option 
+				,receiver_name	
+				,receiver_phone 
+				,demailaddr 	
+				,dlvy_request 	
+				,tran_status_code
+				,order_date 	
+				,dlvy_date 		
+				,quantity
+		)
+		VALUES ( get_seq_tran_no()
+				 ,#{purchaseProd.prodNo:NUMERIC}
+				 ,#{buyer.userId:VARCHAR}
+				 ,#{paymentOption:CHAR}
+				 ,#{receiverName:VARCHAR}
+				 ,#{receiverPhone:VARCHAR}
+				 ,#{dlvyAddr:VARCHAR}
+				 ,#{dlvyRequest:VARCHAR}
+				 ,1
+				 ,SYSDATE
+				 ,#{dlvyDate:DATE}
+				 ,#{quantity:NUMERIC}
+				 )
+	</insert>
+	
+	<insert id="addPurchaseByCart" parameterType="java.util.List">
+		INSERT ALL
+		<foreach collection="list" item="item" separator="     ">
+		INTO transaction ( 
+				tran_no		
+				,prod_no
+				,buyer_id	
+				,payment_option 
+				,receiver_name	
+				,receiver_phone 
+				,demailaddr 	
+				,dlvy_request 	
+				,tran_status_code
+				,order_date 	
+				,dlvy_date 		
+				,quantity
+		)
+		VALUES 
+				 (GET_SEQ_TRAN_NO()
+				 ,#{item.purchaseProd.prodNo:NUMERIC}
+				 ,#{item.buyer.userId:VARCHAR}
+				 ,#{item.paymentOption:CHAR}
+				 ,#{item.receiverName:VARCHAR}
+				 ,#{item.receiverPhone:VARCHAR}
+				 ,#{item.dlvyAddr:VARCHAR}
+				 ,#{item.dlvyRequest:VARCHAR}
+				 ,1
+				 ,SYSDATE
+				 ,#{item.dlvyDate:DATE}
+				 ,#{item.quantity:NUMERIC})				 
+		</foreach>
+		SELECT * FROM DUAL
+	</insert>
+	
+	
+	
+	<select id="getPurchase" parameterType="int" resultMap="purchaseResultMap">
+		SELECT
+		tran_no		
+		,prod_no		
+		,buyer_id	
+		,payment_option
+		,receiver_name	
+		,receiver_phone
+		,demailaddr	
+		,dlvy_request
+		,tran_status_code
+		,order_date	
+		,dlvy_date		   
+		,quantity 
+		FROM transaction	
+		WHERE tran_no = #{value}
+	</select>
+	
+	<update id="updatePurchase" parameterType="com.model2.mvc.service.domain.Purchase">
+  		UPDATE transaction 
+  		<set>
+  			<if test="paymentOption != null">	payment_option  =	#{paymentOption:CHAR},</if>
+  			<if test="receiverName != null">	receiver_name	=	#{receiverName:VARCHAR},</if>
+  			<if test="receiverPhone != null">	receiver_phone  =	#{receiverPhone:VARCHAR},</if>
+  			<if test="dlvyAddr != null">		demailaddr 		=	#{dlvyAddr:VARCHAR},</if>
+  			<if test="dlvyRequest != null">		dlvy_request 	=	#{dlvyRequest:VARCHAR},</if>
+  			<if test="dlvyDate != null">		dlvy_date  		=	#{dlvyDate:DATE},</if>
+  			<if test="quantity != null"> 		quantity		=	#{quantity:NUMERIC}</if>
+  		</set>                                              
+  		<where>
+  			tran_no = #{tranNo}
+  		</where> 										
+  	</update>
+  	
+  	<update id="updateTranCode" parameterType="purchase">
+  		UPDATE
+  		transaction
+  		SET tran_status_code = #{tranCode}
+  		<where>
+  			<if test="tranNo != 0"> 
+  				tran_no = #{tranNo}
+  			</if>
+  			<if test="purchaseProd != null and purchaseProd.prodNo != 0">
+  				prod_no = #{purchaseProd.prodNo}
+  			</if>
+  		</where> 
+  	</update>
+  	
+	<delete id="deletePurchase" parameterType="int">
+		DELETE
+		FROM transaction 
+		WHERE prod_no = #{value}
+	</delete>
+	
+	<select id="makeTotalCount" parameterType="search" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		(<include refid="select-purchase-list"/>)
+	</select>
+	
+	<select id="getPurchaseList" resultMap="purchaseResultMap">
+		SELECT
+		*
+		FROM
+		(SELECT
+		 inner_table.*, ROWNUM AS row_seq
+		 FROM 
+		 (<include refid="select-purchase-list"/>
+		  	
+		  	ORDER BY tran_no) inner_table
+		 WHERE ROWNUM &lt;= #{endRowNum}
+		 )
+		<where>
+			row_seq BETWEEN #{startRowNum} AND #{endRowNum}
+		</where>
+	</select>
+	
+	<insert id="addCart" parameterType="Map">
+		INSERT
+		INTO cart ( user_id, prod_no)
+		VALUES (${userId},${prodNo})
+	</insert>
+	
+	<update id="updateCart" parameterType="Map">
+		UPDATE
+		cart
+		SET prod_no = ${prodNo}
+		WHERE user_id = ${userId}
+	</update>
+</mapper>

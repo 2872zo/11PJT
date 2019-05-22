@@ -10,6 +10,8 @@
         <hr/>
 	</div>
 	
+	<c:import url="/common/searchPrinter.jsp"></c:import>
+	
     <div class="row">
     
     	<c:if test="${!empty unitList}">

@@ -32,9 +32,9 @@
 	</tr>
 </table>
 
-
-<c:import url="../common/searchPrinter.jsp"/>
-
+<c:if test="${!empty search }">
+	<c:import url="../common/searchPrinter.jsp"/>
+</c:if>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>

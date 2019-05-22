@@ -19,11 +19,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
 <!-- Bootstrap Dropdown Hover CSS -->
-  <link href="/css/animate.min.css" rel="stylesheet">
-  <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+<link href="/css/animate.min.css" rel="stylesheet">
+<link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
   
-   <!-- Bootstrap Dropdown Hover JS -->
-  <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+<!-- Bootstrap Dropdown Hover JS -->
+<script src="/javascript/bootstrap-dropdownhover.min.js"></script>
 
 <!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 <style>
@@ -39,14 +39,21 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link href="/css/thumbnail.css" rel="stylesheet">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/javascript/CommonScript.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="/javascript/CommonScript.js"></script>
+<script src="/javascript/listProduct.js"></script>
 <script type="text/javascript">
 $(function(){
 	var prodNoList = [${prodNoList}];
 	var prodFileList = [${prodFileList}];
 
-	//tu
+	// hidden value 설정
+	$("#currentPage").val("${empty resultPage.currentPage?1:resultPage.currentPage}");
+	$("#menu").val("${param.menu}");
+	$("#sortCode").val("${search.sortCode}");
+	$("#hiddingEmptyStock").val("${search.hiddingEmptyStock}");
+	
+	//thumbnail 위의 tooltip기능 
 	$('[data-toggle="tooltip"]').tooltip();
 	
 	//제품 상세정보
@@ -96,6 +103,7 @@ $(function(){
 		fncGetList(${resultPage.currentPage});
 	});
 	
+	
 	$("#prePage").on("click",function(){
 		fncGetList(${resultPage.beginUnitPage-1});
 	});
@@ -105,6 +113,14 @@ $(function(){
 	$("#nextPage").on("click",function(){
 		fncGetList(${resultPage.endUnitPage+1});
 	});
+	
+	$("#Previous").not($(".disabled:contains('Next')")).on("click",function(){
+		fncGetList(Number($("[name=currentPage]").val())-1);
+	});
+	$("#Next").not($(".disabled:contains('Next')")).on("click",function(){
+		fncGetList(Number($("[name=currentPage]").val())+1);
+	});
+	
 	
 	$("#empty").on("click",function(){
 		$("#listPrinter").empty()
@@ -132,6 +148,7 @@ $(function(){
 	});
 	
 	$("#searchKeyword").keyup(function(){
+		console.log($("#searchCondition").val());
 		if($("#searchCondition").val() == 1 && $("#searchKeyword").val().length >= 1){			
 			GetData("product","prod_name","prod_name",$("#searchKeyword").val(),function(output){
 // 				alert("output : " + output + " " + typeof(output));
@@ -143,103 +160,6 @@ $(function(){
 	});
 	
 });
-
-
-/////////////////////////////////////////////////////
-
-
-function autoComplete(obj){
-// 	alert(obj);
-	$("#searchKeyword").autocomplete({
-		source : obj
-	});	
-}
-
-function fncValidationCheck(){
-	var result = true;
-	
-	if(document.detailForm.searchCondition.value != 1 && document.detailForm.searchKeyword.value != null){
-		var splitSearchKeyword = document.detailForm.searchKeyword.value.split(',');
-		
-		if(splitSearchKeyword.length > 2){
-			alert(" ','를 이용하여 2개의 범위값을 지정해 주십시오");
-		}
-		for(var i = 0; i < splitSearchKeyword.length; i++){
-			if(isNaN(splitSearchKeyword[i])){
-				alert("숫자만 가능합니다.")
-				result = false;
-				break;
-			}
-			
-		}
-	}
-	
-	return result;
-}
-
-function fncGetList(currentPage){
-	$("input[name=currentPage]").val(currentPage);
-	$("input[name=menu]").val("${param.menu}");
-	
-	if(!fncValidationCheck()){
-		return;
-	}
-
-	$("form[name=detailForm]").submit();
-}
-
-function fncSortList(currentPage, sortCode){
-	$("input[name=currentPage]").val(currentPage);
-	$("input[name=menu]").val("${param.menu}");
-	$("input[name=sortCode]").val(sortCode);
-	
-	//검색 조건 Validation Check
-	if(!fncValidationCheck()){
-		return;
-	}
-
-	$("form").submit();
-}
-
-function fncHiddingEmptyStock(currentPage, hiddingEmptyStock){
-	$("input[name=currentPage]").val(currentPage);
-	$("input[name=menu]").val("${param.menu}");
-	$("input[name=hiddingEmptyStock]").val(hiddingEmptyStock);
-	
-	//검색 조건 Validation Check
-	if(!fncValidationCheck()){
-		return;
-	}
-
-	$("form").submit();
-}
-
-
-function fncResetSearchCondition(){
-	location.href = "/product/listProduct?menu=${param.menu}";
-}
-
-
-
-function fncUpdateTranCodeByProd(currentPage, prodNo){
-	$("input[name=currentPage]").val(currentPage);
-	$("input[name=menu]").val("${param.menu}");
-	
-	//검색 조건 Validation Check
-	if(!fncValidationCheck()){
-		return;
-	}
-	
-	var URI = "/purchase/updateTranCodeByProd?page=" + currentPage + "&menu=" + "${param.menu}" + "&prodNo=" + prodNo + "&tranCode=2";
-	
-	if("${empty search.searchKeyword}" != "true"){
-		URI += "&searchCondition=" + "${search.searchCondition}" + "&searchKeyword=" + "${search.searchKeyword}";
-	}
-	
-	location.href = URI;
-}
-
-
 </script>
 
 <c:if test="${!empty user}"><c:import url="/layout/toolbar.jsp"></c:import></c:if>
@@ -250,20 +170,18 @@ function fncUpdateTranCodeByProd(currentPage, prodNo){
 
 <div style="width:98%; margin-left:10px;">
 
-<form name="detailForm" action="/product/listProduct" method="post">
-
-<%-- <c:import url="../common/listPrinter.jsp"/> --%>
+<form name="detailForm">
+	<input type="hidden" id="currentPage" name="currentPage"/>
+	<input type="hidden" id="menu" name="menu"/>
+	<input type="hidden" id="sortCode" name="sortCode"/>
+	<input type="hidden" id="hiddingEmptyStock" name="hiddingEmptyStock"/>
+	
 <c:import url="../common/thumbnailListPrinter.jsp"/>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
-			<input type="hidden" id="currentPage" name="currentPage"/>
-			<input type="hidden" id="menu" name="menu" value=""/>
-			<input type="hidden" id="sortCode" name="sortCode" value="${search.sortCode}"/>
-			<input type="hidden" id="hiddingEmptyStock" name="hiddingEmptyStock" value="${search.hiddingEmptyStock}"/>
-			
-			<c:import url="../common/pageNavigator.jsp"/>
+			<c:import url="/common/pageNavigator.jsp"/>
 		</td>
 	</tr>
 	<tr>

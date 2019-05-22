@@ -210,7 +210,7 @@
  	
  	
  	<!-- PageNavigation Start... -->
-	<jsp:include page="../common/pageNavigator_new.jsp"/>
+	<jsp:include page="/common/pageNavigator_new.jsp"/>
 	<!-- PageNavigation End... -->
 	
 </body>

@@ -5,17 +5,37 @@
 
 <html>
 <head>
-<title>구매 목록조회</title>
+
+<!--  ///////////////////////// 툴바 이용을 위한 lib START ////////////////////////// -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+<!--   jQuery , Bootstrap CDN  -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+<!-- Bootstrap Dropdown Hover CSS -->
+  <link href="/css/animate.min.css" rel="stylesheet">
+  <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+  
+   <!-- Bootstrap Dropdown Hover JS -->
+  <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+
+<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
+<style>
+       body {
+           padding-top : 70px;
+       }
+</style>
+<!--  ///////////////////////// 툴바 이용을 위한 lib END ////////////////////////// -->
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="../javascript/CommonScript.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$("a").wrapInner("<ins></ins>");
-		
 		var tranNoList = [${tranNoList}];
 		var prodNoList = [${prodNoList}];
 		
@@ -23,7 +43,6 @@
 		      autoOpen: false
 		});
 		
-		$("tr.ct_list_pop td:nth-child(5)").wrapInner("<ins></ins>");
 		$("tr.ct_list_pop td:nth-child(5)").on("click",function(){
 			location.href = "/product/getProduct?prodNo="+prodNoList[$($("td",$(this).parent())[0]).text()-1];
 		});	
@@ -160,61 +179,65 @@
 		location.href = "/purchase/listPurchase";
 	}
 </script>
+
+	<c:if test="${!empty user}"> <c:import url="/layout/toolbar.jsp">  </c:import></c:if>
+	<c:if test="${empty user}">	 <c:import url="/layout/toolbar2.jsp"> </c:import></c:if>
+	
+	<title>구매 목록조회</title>
 </head>
 
 <body bgcolor="#ffffff" text="#000000">
 
-<div style="width: 98%; margin-left: 10px;">
+<div class="container" style="width: 98%; margin-left: 10px;">
 
-<form name="detailForm" action="/purchase/listPurchase" method="post">
-
-<%-- list출력 부분 --%>
-<c:import url="../common/listPrinter.jsp">
-	<c:param name="domainName" value="Purchase"/>
-</c:import>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
-	<tr>
-		<td align="center">
-		 <input type="hidden" id="currentPage" name="currentPage" value=""/>
-		 <input type="hidden" id="menu" name="menu" value=""/>
-		 <input type="hidden" id="sortCode" name="sortCode" value="${search.sortCode}"/>
-		 <input type="hidden" id="hiddingEmptyStock" name="hiddingEmptyStock" value="${search.hiddingEmptyStock}"/>
-		
-		 <c:import url="../common/pageNavigator.jsp">
+	<form name="detailForm" action="/purchase/listPurchase" method="post">
+	
+		<%-- list출력 부분 --%>
+		<c:import url="../common/listPrinter.jsp">
 			<c:param name="domainName" value="Purchase"/>
-		</c:import>	
-			
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<a href="#" class="sort"></a>
-			<a class="sort">배송 준비중인 상품</a>
-			&nbsp;
-			<a  class="sort">배송중인 상품</a>
-			&nbsp;
-			<a  class="sort">거래 완료된 상품</a>
-			&nbsp;
-			<a  class="sort">구매 취소된 상품</a>
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<a  id="hidding">거래중인 상품만 보기</a>
-			&nbsp;
-			<a  id="unHidding">모든 상품 보기</a>
-		</td>
-	</tr>
-	<tr>
-		<td align="center">
-			<a  id="reset">검색 조건 초기화</a>
-		</td>
-	</tr>
-</table>
-
-<!--  페이지 Navigator 끝 -->
-</form>
+		</c:import>
+		
+		<table class="table">
+			<tr>
+				<td align="center">
+					<input type="hidden" id="currentPage" name="currentPage" value=""/>
+					<input type="hidden" id="menu" name="menu" value=""/>
+					<input type="hidden" id="sortCode" name="sortCode" value="${search.sortCode}"/>
+					<input type="hidden" id="hiddingEmptyStock" name="hiddingEmptyStock" value="${search.hiddingEmptyStock}"/>
+					
+					<c:import url="/common/pageNavigator.jsp">
+						<c:param name="domainName" value="Purchase"/>
+					</c:import>	
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<a href="#" class="sort"></a>
+					<a class="sort">배송 준비중인 상품</a>
+					&nbsp;
+					<a  class="sort">배송중인 상품</a>
+					&nbsp;
+					<a  class="sort">거래 완료된 상품</a>
+					&nbsp;
+					<a  class="sort">구매 취소된 상품</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<a  id="hidding">거래중인 상품만 보기</a>
+					&nbsp;
+					<a  id="unHidding">모든 상품 보기</a>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<a  id="reset">검색 조건 초기화</a>
+				</td>
+			</tr>
+		</table>
+	
+		<!--  페이지 Navigator 끝 -->
+	</form>
 
 </div>
 

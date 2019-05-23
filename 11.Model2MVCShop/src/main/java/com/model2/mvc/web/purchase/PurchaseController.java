@@ -384,14 +384,7 @@ public class PurchaseController {
 		purchaseService.deleteCart(search);
 	}
 	
-	@RequestMapping("addCart")
-	public void addCart(@RequestParam("prodNo") int prodNo,HttpSession session) throws Exception {
-		Search search = new Search();
-		search.setUserId(((User)session.getAttribute("user")).getUserId());
-		search.setProdNo(prodNo);
-				
-		purchaseService.addCart(search);
-	}
+
 	
 	@RequestMapping("addPurchaseByCart")
 	public void addPurchaseByCart(@ModelAttribute("purchase") Purchase purchase,@RequestParam("jsonData") String jsonData,

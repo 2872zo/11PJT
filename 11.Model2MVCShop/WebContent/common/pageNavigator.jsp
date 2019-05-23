@@ -69,10 +69,10 @@
 		  		<li><a href="#" id="Previous">Previous</a></li>
 			</c:if>
 			<c:if test="${resultPage.currentPage eq resultPage.maxPage}">
-		  		<li class="disabled" id="Next"><a>Next</a></li>
+		  		<li class="disabled"><a>Next</a></li>
 			</c:if>
 			<c:if test="${resultPage.currentPage ne resultPage.maxPage}">
-		  		<li><a href="#">Next</a></li>
+		  		<li><a href="#" id="Next">Next</a></li>
 			</c:if>
 		  </ul>
 		</nav>

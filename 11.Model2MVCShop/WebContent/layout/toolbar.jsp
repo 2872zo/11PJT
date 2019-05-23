@@ -112,15 +112,8 @@
    	
    	<script type="text/javascript">
 	
-		//============= logout Event  처리 =============	
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		 	$("a:contains('로그아웃')").on("click" , function() {
-				$(self.location).attr("href","/user/logout");
-				//self.location = "/user/logout"
-			}); 
-		 });
 		
+/////////////////////////////////////////회원관리//////////////////////////////////////
 		//============= 회원정보조회 Event  처리 =============	
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
@@ -129,35 +122,57 @@
 				self.location = "/user/listUser"
 			}); 
 		 });
-		
 		//=============  개인정보조회 Event  처리 =============	
 	 	$( "a:contains('개인정보조회')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
 		});
+
 		
+/////////////////////////////////////////상품구매탭//////////////////////////////////////
+	 	//=============  판매상품등록 Event  처리 =============	
+	 	$( "a:contains('판매상품등록')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/product/addProductView.jsp");
+		});
+	 	//=============  판매상품관리 Event  처리 =============	
+	 	$( "a:contains('판매상품관리')" ).on("click" , function() {
+	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+			$(self.location).attr("href","/product/listProduct?menu=manage");
+		});
+	 	
+		
+/////////////////////////////////////////상품구매탭//////////////////////////////////////
 	 	//=============  상품검색 Event  처리 =============	
 	 	$( "a:contains('상 품 검 색')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/product/listProduct?menu=search");
 		});
-	 	
 	 	//=============  최근본상품 Event  처리 =============	
 	 	$( "a:contains('최근본상품')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","javascript:history()");
 		});
-	 	
 	 	//=============  구매이력조회, 거래관리 Event  처리 =============	
 	 	$( "a:contains('구매이력조회'), a:contains('거래관리')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/purchase/listPurchase");
 		});
 	 	
+///////////////////////////////////////toolbar right////////////////////////////////////////
 	 	//=============  장바구니 Event  처리 =============	
 	 	$( ".glyphicon-shopping-cart" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/purchase/viewCart");
 		});
+	 	
+	 	//============= logout Event  처리 =============	
+		 $(function() {
+			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+		 	$("a:contains('로그아웃')").on("click" , function() {
+				$(self.location).attr("href","/user/logout");
+				//self.location = "/user/logout"
+			}); 
+		 });
 		
 	</script>  

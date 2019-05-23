@@ -74,25 +74,14 @@ $(function(){
 	
 	
 	//제품 sorting
-	$(".ct_list_b:contains('No')").addClass("sort");
-	$(".ct_list_b:contains('상품명')").addClass("sort");
-	$(".ct_list_b:contains('가격')").addClass("sort");
-	$(".sort").wrapInner("<ins></ins>");
-	$(".sort").on("click",function(){
-// 		alert($("td.sort").index($(this)));
-		var sortCode = $(".sort").index($(this));
-		if(sortCode == $("#sortCode").val()){
-			sortCode += 2; 
-		}
-// 		alert(sortCode);
-		fncSortList(${resultPage.currentPage},sortCode);
+	$(".sort").on("change",function(){
+//  		alert($(this).val());
+		fncSortList(${resultPage.currentPage},$(this).val());
 	});
 	
-	$("#unHidding").on("click",function(){
-		fncHiddingEmptyStock(${resultPage.currentPage},false);
-	});
-	$("#hidding").on("click",function(){
-		fncHiddingEmptyStock(${resultPage.currentPage},true);
+	$(".hideOption").on("change",function(){
+//  		alert($(this).val());
+		fncGetList(${resultPage.currentPage});
 	});
 	
 	$("#reset").on("click",function(){
@@ -114,10 +103,10 @@ $(function(){
 		fncGetList(${resultPage.endUnitPage+1});
 	});
 	
-	$("#Previous").not($(".disabled:contains('Next')")).on("click",function(){
+	$("#Previous").on("click",function(){
 		fncGetList(Number($("[name=currentPage]").val())-1);
 	});
-	$("#Next").not($(".disabled:contains('Next')")).on("click",function(){
+	$("#Next").on("click",function(){
 		fncGetList(Number($("[name=currentPage]").val())+1);
 	});
 	
@@ -152,9 +141,9 @@ $(function(){
 		if($("#searchCondition").val() == 1 && $("#searchKeyword").val().length >= 1){			
 			GetData("product","prod_name","prod_name",$("#searchKeyword").val(),function(output){
 // 				alert("output : " + output + " " + typeof(output));
-				var jsonArray = $.parseJSON(output);
+				var javascriptArray = $.parseJSON(output);
 // 				alert(jsonArray);
-				autoComplete(jsonArray);
+				autoComplete(javascriptArray);
 			});
 		}
 	});

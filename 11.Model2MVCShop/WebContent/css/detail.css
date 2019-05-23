@@ -109,7 +109,7 @@ img {
   .color:first-of-type {
     margin-left: 20px; }
 
-.add-to-cart, .like {
+.add-to-cart, .like, .buy {
   background: #ff9f1a;
   padding: 1.2em 1.5em;
   border: none;
@@ -118,7 +118,7 @@ img {
   color: #fff;
   -webkit-transition: background .3s ease;
           transition: background .3s ease; }
-  .add-to-cart:hover, .like:hover {
+  .add-to-cart:hover, .like:hover, .buy:hover {
     background: #b36800;
     color: #fff; }
 

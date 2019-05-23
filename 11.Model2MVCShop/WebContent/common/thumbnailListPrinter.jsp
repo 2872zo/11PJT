@@ -22,13 +22,14 @@
 	                    ${unit.prodName}
 	                    <span class="label label-info info">
 	                    	<c:if test="${!empty unit.salesVolume }">
-	                        <span data-toggle="tooltip" title="viewed"><b class="glyphicon glyphicon-eye-open"></b>&nbsp;${unit.salesVolume}</span>
+	                        <span data-toggle="tooltip" title="판매량"><b class="glyphicon glyphicon-tags"></b>&nbsp;${unit.salesVolume}</span>
 	                        </c:if>
-	                        <span data-toggle="tooltip" title="rating"><b class="glyphicon glyphicon-star"></b>&nbsp;${unit.avgRating} </span>
+	                        <span data-toggle="tooltip" title="평점"><b class="glyphicon glyphicon-star"></b>&nbsp;${unit.avgRating} </span>
+	                        <span data-toggle="tooltip" title="재고"><b class="fas fa-cubes"></b>&nbsp;${unit.stock} </span>
 	                    </span>
 	                </h4>
-	                <div style="width: auto; height: 335px; overflow: hidden; display:flex; justify-content:center; align-items:center;">
-  						<img src="/images/uploadFiles/${unit.fileName}" style="max-width: 100%; max-height: 100%; vertical-align:middle;">
+	                <div style="width: 320px; height: 320px; overflow: hidden; display:flex; justify-content:center; align-items:center; padding:25; margin:0px auto">
+  						<img src="/images/uploadFiles/${unit.fileName}" style="max-width: 100%; max-height: 100%; horizon-align:middle; vertical-align:middle;">
 					</div>
 	                &nbsp;<span class="fas fa-won-sign"></span>&nbsp;${unit.price}
 	                <a href="#" class="btn btn-primary col-xs-12" role="button" style="color: white">상세 보기</a>

@@ -42,36 +42,29 @@
 	function addCart(obj){
 		$.ajax(
 				{
-					url : "/purchase/addCart",
-					data : {
-						prodNo : obj
-					},
+					url : "/purchase/json/addCart/"+obj,
+					data : JSON.stringify(obj),
 					dataType : "json",
-					success : function() {
-						alert("장바구니에 추가되었습니다.");
+					success : function(a) {
+						if(a==true){
+							alert("장바구니에 추가되었습니다.");
+						}
+					},
+					error : function(a,b,c){
+						alert(a);
+						alert(b);
+						alert(c);
 					}
 				}
 		);
 	}
 	
 	$(function(){
-		$("a:contains('이전')").on("click",function(){
-			history.go(-1);
-		});
-		
-		$("a:contains('구매')").on("click",function(){
+		$("button:contains('buy')").on("click",function(){
 			fncGetAddPurchaseView(${product.prodNo});
 		});
 		
-		$("a:contains('수정')").on("click",function(){
-			location.href ="/product/updateProductView?prodNo=${product.prodNo}";
-		});
-		
-		$("a:contains('삭제')").on("click",function(){
-			location.href ="/product/deleteProduct?prodNo=${product.prodNo}";
-		});
-		
-		$("a:contains('담기')").on("click",function(){
+		$("button:contains('add to cart')").on("click",function(){
 			var prodNo = ${product.prodNo};
 			var userId = "${user.userId}";
 			GetData("cart","user_id","prod_no",userId,function(output){
@@ -85,6 +78,16 @@
 			});
 			
 		});
+		
+		
+		$("a:contains('수정')").on("click",function(){
+			location.href ="/product/updateProductView?prodNo=${product.prodNo}";
+		});
+		
+		$("a:contains('삭제')").on("click",function(){
+			location.href ="/product/deleteProduct?prodNo=${product.prodNo}";
+		});
+		
 		
 		$(".ct_list_pop").on("click",function(){
 			var reviewNo = $($(this).find("td")[0]).text();
@@ -180,16 +183,7 @@
 					</td>
 					<td width="30"></td>
 				</c:if>
-		
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a>이전</a>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23">
-				</td>
+				
 			</tr>
 		</table>
 

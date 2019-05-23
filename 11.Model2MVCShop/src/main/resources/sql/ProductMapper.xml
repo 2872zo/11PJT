@@ -89,10 +89,10 @@
 		</if>
 		<choose>
 			<when test="sortCode == 0"> ORDER BY p.prod_no 		 	 </when>
-			<when test="sortCode == 3"> ORDER BY p.prod_no desc 	 </when>
-			<when test="sortCode == 1"> ORDER BY p.prod_name 		 </when>
-			<when test="sortCode == 4"> ORDER BY p.prod_name desc 	 </when>
-			<when test="sortCode == 2"> ORDER BY p.price 			 </when>
+			<when test="sortCode == 1"> ORDER BY p.prod_no desc 	 </when>
+			<when test="sortCode == 2"> ORDER BY p.prod_name 		 </when>
+			<when test="sortCode == 3"> ORDER BY p.prod_name desc 	 </when>
+			<when test="sortCode == 4"> ORDER BY p.price 			 </when>
 			<when test="sortCode == 5"> ORDER BY p.price desc 		 </when>
 			<otherwise> ORDER BY p.prod_no </otherwise>
 		</choose>

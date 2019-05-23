@@ -29,6 +29,7 @@ function fncValidationCheck(){
 
 function fncGetList(currentPage){
 	$("input[name=currentPage]").val(currentPage);
+	$("input[name=hiddingEmptyStock]").val($(".hideOption").val());
 	
 	if(!fncValidationCheck()){
 		return;
@@ -51,7 +52,7 @@ function fncSortList(currentPage, sortCode){
 
 function fncHiddingEmptyStock(currentPage, hiddingEmptyStock){
 	$("input[name=currentPage]").val(currentPage);
-	$("input[name=hiddingEmptyStock]").val(hiddingEmptyStock);
+	
 	
 	//검색 조건 Validation Check
 	if(!fncValidationCheck()){

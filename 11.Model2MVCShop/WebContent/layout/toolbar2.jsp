@@ -8,7 +8,7 @@
 <script src="/javascript/toolbar.js"></script>
 
 <!-- ToolBar Start /////////////////////////////////////-->
-	<div class="navbar  navbar-default">
+	<div class="navbar  navbar-default navbar-fixed-top">
 		
         <div class="container">
         
@@ -40,52 +40,20 @@
    	
    	<script type="text/javascript">
 	
-		//============= logout Event  처리 =============	
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		 	$("a:contains('로그아웃')").on("click" , function() {
-				$(self.location).attr("href","/user/logout");
-				//self.location = "/user/logout"
-			}); 
-		 });
-		
-		//============= 회원정보조회 Event  처리 =============	
-		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-		 	$("a:contains('회원정보조회')").on("click" , function() {
-				//$(self.location).attr("href","/user/logout");
-				self.location = "/user/listUser"
-			}); 
-		 });
-		
-		//=============  개인정보조회 Event  처리 =============	
-	 	$( "a:contains('개인정보조회')" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/user/getUser?userId=${sessionScope.user.userId}");
+  	//============= 회원원가입 화면이동 =============
+	$( function() {
+		//==> 추가된부분 : "addUser"  Event 연결
+		$("a[href='#' ]:contains('회원가입')").on("click" , function() {
+			self.location = "/user/addUser"
 		});
-		
-	 	//=============  상품검색 Event  처리 =============	
-	 	$( "a:contains('상 품 검 색')" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/product/listProduct?menu=search");
+	});
+	
+	//============= 로그인 화면이동 =============
+	$( function() {
+		//==> 추가된부분 : "addUser"  Event 연결
+		$("a[href='#' ]:contains('로 그 인')").on("click" , function() {
+			self.location = "/user/login"
 		});
-	 	
-	 	//=============  최근본상품 Event  처리 =============	
-	 	$( "a:contains('최근본상품')" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","javascript:history()");
-		});
-	 	
-	 	//=============  구매이력조회, 거래관리 Event  처리 =============	
-	 	$( "a:contains('구매이력조회'), a:contains('거래관리')" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/purchase/listPurchase");
-		});
-	 	
-	 	//=============  장바구니 Event  처리 =============	
-	 	$( ".glyphicon-shopping-cart" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			$(self.location).attr("href","/purchase/viewCart");
-		});
+	});
 		
 	</script>  

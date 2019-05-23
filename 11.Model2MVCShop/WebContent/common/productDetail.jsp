@@ -24,18 +24,29 @@
 					<div class="preview col-md-6">
 						
 						<div class="preview-pic tab-content">
-						  <div class="tab-pane active" id="pic-1"><img src="http://placekitten.com/400/252" /></div>
-						  <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/335/335" /></div>
-						  <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/250/250" /></div>
-						  <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/250" /></div>
-						  <div class="tab-pane" id="pic-5"><img src="http://placekitten.com/300/252" /></div>
+						  <c:set var="i" value="0"/>
+						  <c:forEach items="${map.fileNames}" var="fileName" begin="0">
+						  	<c:if test="${i eq 0}">	
+						  	  <div class="tab-pane active" id="pic-${i}"><img src="${fileName}"/></div>
+						  	</c:if>
+						  	<c:if test="${i ne 0}">
+						  	  <div class="tab-pane" id="pic-${i}"><img src="${fileName}" /></div>
+						  	</c:if>
+						  	<c:set var="i" value="${i+1}"/>
+						  </c:forEach>
 						</div>
+						
 						<ul class="preview-thumbnail nav nav-tabs">
-						  <li class="active"><a data-target="#pic-1" data-toggle="tab"><img src="http://placekitten.com/400/252" /></a></li>
-						  <li><a data-target="#pic-2" data-toggle="tab"><img src="http://placekitten.com/335/335" /></a></li>
-						  <li><a data-target="#pic-3" data-toggle="tab"><img src="http://placekitten.com/250/250" /></a></li>
-						  <li><a data-target="#pic-4" data-toggle="tab"><img src="http://placekitten.com/400/250" /></a></li>
-						  <li><a data-target="#pic-5" data-toggle="tab"><img src="http://placekitten.com/300/252" /></a></li>
+						  <c:set var="i" value="0"/>
+						  <c:forEach items="${map.fileNames}" var="fileName">
+						  	<c:if test="${i eq 0 }">
+						  	  <li class="active"><a data-target="#pic-${i}" data-toggle="tab"><img src="${fileName}" /></a></li>
+						  	</c:if>
+						  	<c:if test="${i ne 0}">
+						  	  <li><a data-target="#pic-${i}" data-toggle="tab"><img src="${fileName}" /></a></li>
+						  	</c:if>
+						  	<c:set var="i" value="${i+1}"/>
+						  </c:forEach>
 						</ul>
 						
 					</div>
@@ -54,7 +65,7 @@
 						<h4 class="price">current price: <span>${map.price }&nbsp;<span class="fa fa-krw"></span></span></h4>
 						<div class="action">
 							<button class="add-to-cart btn btn-default" type="button">add to cart</button>
-							<button class="add-to-cart btn btn-default" type="button">Buy</button>
+							<button class="buy btn btn-default" type="button">buy</button>
 						</div>
 					</div>
 				</div>

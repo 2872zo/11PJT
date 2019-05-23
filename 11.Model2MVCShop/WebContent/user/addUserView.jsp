@@ -17,6 +17,8 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
+	<script src="../javascript/CommonScript.js"></script>
 	
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
@@ -142,16 +144,49 @@
 		 
 		//==>"ID중복확인" Event 처리 및 연결
 		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			 $("button.btn.btn-info").on("click" , function() {
-				popWin 
-				= window.open("/user/checkDuplication.jsp",
-											"popWin", 
-											"left=300,top=200,width=780,height=130,marginwidth=0,marginheight=0,"+
-											"scrollbars=no,scrolling=no,menubar=no,resizable=no");
-			});
+				$("input:text[name=userId]").keyup(function(){
+					var tableName = "users";
+					var colum = "user_id";
+					var valueColum = "user_id";
+					var value = $(this).val();
+					var obj = $("#helpBlock");
+					
+					if(CheckSpace(value) == false && CheckSpecial(value) == false){
+						ValidationCheck(tableName,colum,valueColum,value,function(output){
+//	 						alert("output : " + output + " " + typeof(output));
+							if(output == "true"){				
+								obj.css("color","green").text("사용가능");
+							}else{
+								obj.css("color","red").text("사용불가 : 이미 존재하는 ID");
+							}
+						});
+					}else{
+						obj.css("color","red").text("사용불가 : 잘못된 형식");
+					}
+				});
 		});	
-
+		
+		//daum 주소찾기 API
+		$(function(){
+			$("[name=zonecode],[name=firstAddress]").on("click",function(){
+				daum.postcode.load(function(){
+					new daum.Postcode({
+				        oncomplete: function(data) {
+		// 		        	for(i in data) {
+		//  				   		console.log("no is " + [i] + ", value is " + data[i]);
+		// 					}
+		
+							$("[name=zonecode]").val(data.zonecode);
+							if(data.userSelectedType == "J"){
+				        		$("[name=firstAddress]").val(data.jibunAddress);
+							}else{
+								$("[name=firstAddress]").val(data.roadAddress);
+							}				
+				        }
+				    }).open();
+				});
+			});	
+		});
 	</script>		
     
 </head>
@@ -177,13 +212,9 @@
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="userId" name="userId" placeholder="중복확인하세요"  readonly>
-		       <span id="helpBlock" class="help-block">
-		      	<strong class="text-danger">입력전 중복확인 부터..</strong>
+		      <input type="text" class="form-control" id="userId" name="userId" placeholder="특수문자 제외 최대 10자">
+		      <span id="helpBlock" class="help-block">
 		      </span>
-		    </div>
-		    <div class="col-sm-3">
-		      <button type="button" class="btn btn-info">중복확인</button>
 		    </div>
 		  </div>
 		  
@@ -221,7 +252,9 @@
 		  <div class="form-group">
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">주소</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="addr" name="addr" placeholder="주소">
+		      	<input 	type="text" class="dlvyAddr form-control" name="zonecode" style="width: 100px;" readonly="readonly" placeholder="우편번호"/>
+				<input 	type="text" class="dlvyAddr form-control" name="firstAddress" readonly="readonly" placeholder="기본 주소"/>
+				<input 	type="text" class="dlvyAddr form-control" name="secondAddress" maxLength="20" placeholder="상세 주소"/>
 		    </div>
 		  </div>
 		  

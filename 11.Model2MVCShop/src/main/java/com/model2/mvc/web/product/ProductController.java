@@ -105,11 +105,11 @@ public class ProductController {
 		List<Review> reviewList = (List<Review>) reviewMap.get("list");
 		int reviewCount = (int) reviewMap.get("totalCount");
 		
-		List<String> columList = new Vector<String>();
-		columList.add("리뷰번호");
-		columList.add("제목");
-		columList.add("작성자");
-		columList.add("평점");
+//		List<String> columList = new Vector<String>();
+//		columList.add("리뷰번호");
+//		columList.add("제목");
+//		columList.add("작성자");
+//		columList.add("평점");
 		
 		List<List> unitList = new Vector<List>();
 		List<String> unitDetail = null;
@@ -192,6 +192,18 @@ public class ProductController {
 		System.out.println("ListProductAction-list.size() : " + ((List) map.get("list")).size());
 
 		/// 6.JSP에 출력을 하기위한 설정들
+		List<String> sortList = new ArrayList<String>();
+		sortList.add("상품번호 오름차순");
+		sortList.add("상품번호 내림차순");
+		sortList.add("상품명 오름차순");
+		sortList.add("상품명 내림차순");
+		sortList.add("가격 오름차순");
+		sortList.add("가격 오름차순");
+		
+		List<String> hideList = new ArrayList<String>();
+		hideList.add("모든 상품 보기");
+		hideList.add("품절 상품 제외");
+		
 		// searchOptionList 설정
 		List<String> searchOptionList = new Vector<String>();
 		searchOptionList.add("상품번호");
@@ -206,25 +218,26 @@ public class ProductController {
 			title = "판매 목록 관리";
 		}
 
-		// colum 설정
-		List<String> columList = new ArrayList<String>();
-		columList.add("No");
-		columList.add("상품명");
-		columList.add("가격");
-		columList.add("등록일");
-		columList.add("현재상태");
+//		// colum 설정
+//		List<String> columList = new ArrayList<String>();
+//		columList.add("No");
+//		columList.add("상품명");
+//		columList.add("가격");
+//		columList.add("등록일");
+//		columList.add("현재상태");
 
 		// UnitList 설정
 //		List unitList = makeProductList(menu, (List<Product>) map.get("list"), currentPage);
 		List unitList = makeProductListForMap((List<Product>) map.get("list"));
 
 		// 출력을 위한 Obejct들
-		
 		resultMap.put("title", title);
-		resultMap.put("columList", columList);
+//		resultMap.put("columList", columList);
 		resultMap.put("unitList", unitList);
 		resultMap.put("searchOptionList", searchOptionList);
 		resultMap.put("resultPage", resultPage);
+		resultMap.put("sortList", sortList);
+		resultMap.put("hideList", hideList);
 		
 		List<Product> prodList = (List<Product>) map.get("list");
 		String prodNoList = null;
@@ -353,6 +366,7 @@ public class ProductController {
 			unitMap.put("avgRating", "3");
 			//판매 개수
 			unitMap.put("salesVolume", "2");
+			unitMap.put("stock", String.valueOf(productList.get(i).getStock()));
 			
 			
 			

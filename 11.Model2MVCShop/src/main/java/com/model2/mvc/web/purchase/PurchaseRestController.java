@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,6 +89,16 @@ public class PurchaseRestController {
 		purchase.setTranCode("0");
 
 		return purchaseService.updateTranCode(purchase)==1; 
+	}
+	
+	@RequestMapping("json/addCart/{prodNo}")
+	public boolean addCart(@PathVariable(value="prodNo") int prodNo,HttpSession session) throws Exception {
+		Search search = new Search();
+		search.setUserId(((User)session.getAttribute("user")).getUserId());
+		search.setProdNo(prodNo);
+				
+		purchaseService.addCart(search);
+		return true;
 	}
 	
 	private List makePurchaseList(int currentPage, List<Purchase> purchaseList, User user) {

@@ -109,7 +109,7 @@ img {
   .color:first-of-type {
     margin-left: 20px; }
 
-.add-to-cart, .like, .buy {
+.add-to-cart, .like{
   background: #ff9f1a;
   padding: 1.2em 1.5em;
   border: none;
@@ -118,9 +118,22 @@ img {
   color: #fff;
   -webkit-transition: background .3s ease;
           transition: background .3s ease; }
-  .add-to-cart:hover, .like:hover, .buy:hover {
+  .add-to-cart:hover, .like:hover{
     background: #b36800;
     color: #fff; }
+    
+ .buy {
+  background: #ffffff;
+  padding: 1.2em 1.5em;
+  border: none;
+  text-transform: UPPERCASE;
+  font-weight: bold;
+  color: #000;
+  -webkit-transition: background .3s ease;
+          transition: background .3s ease; }
+  .buy:hover {
+    background: #bdbdbd;
+    color: #000; }
 
 .not-available {
   text-align: center;

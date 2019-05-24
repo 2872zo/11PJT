@@ -64,7 +64,7 @@ public class ProductController {
 	}
 
 	@RequestMapping("addProduct")
-	public String addProduct(@ModelAttribute("product") Product product,@RequestParam("file") MultipartFile[] files, Model model) throws Exception {
+	public String addProduct(@ModelAttribute("product") Product product,@RequestParam("files") MultipartFile[] files, Model model) throws Exception {
 		if(files!=null && files.length > 0) {
 			String fileName = null;
 			for (MultipartFile file : files) {
@@ -105,14 +105,15 @@ public class ProductController {
 		List<Review> reviewList = (List<Review>) reviewMap.get("list");
 		int reviewCount = (int) reviewMap.get("totalCount");
 		
-//		List<String> columList = new Vector<String>();
-//		columList.add("리뷰번호");
-//		columList.add("제목");
-//		columList.add("작성자");
-//		columList.add("평점");
+		List<String> columList = new Vector<String>();
+		columList.add("리뷰번호");
+		columList.add("제목");
+		columList.add("작성자");
+		columList.add("평점");
 		
 		List<List> unitList = new Vector<List>();
 		List<String> unitDetail = null;
+		float avgRating = 0;
 		for (int i = 0; i < reviewList.size(); i++) {
 			unitDetail = new Vector<String>();
 			unitDetail.add(String.valueOf(reviewList.get(i).getReviewNo()));
@@ -120,7 +121,12 @@ public class ProductController {
 			unitDetail.add(reviewList.get(i).getUserId());
 			unitDetail.add(String.valueOf(reviewList.get(i).getRating()));	
 			unitList.add(unitDetail);
+			avgRating += reviewList.get(i).getRating();
 		}
+		if(avgRating != 0) {
+			avgRating *= 20/reviewList.size();
+		}
+		
 		
 		if (menu == null || menu.equals("search")) {
 			targetURI = "forward:/product/getProduct.jsp";
@@ -134,10 +140,10 @@ public class ProductController {
 		map.put("map", product.toMap());
 		map.put("reviewCount", reviewCount);
 		map.put("product", product);
-		map.put("avgRating", 85);
-		
-		
-		
+		map.put("avgRating", avgRating);
+		//리뷰를위한 객체
+		map.put("columList", columList);
+		map.put("unitList", unitList);
 		
 		if (cookie == null) {
 			cookie = new Cookie("history", String.valueOf(prodNo));
@@ -218,21 +224,10 @@ public class ProductController {
 			title = "판매 목록 관리";
 		}
 
-//		// colum 설정
-//		List<String> columList = new ArrayList<String>();
-//		columList.add("No");
-//		columList.add("상품명");
-//		columList.add("가격");
-//		columList.add("등록일");
-//		columList.add("현재상태");
-
-		// UnitList 설정
-//		List unitList = makeProductList(menu, (List<Product>) map.get("list"), currentPage);
 		List unitList = makeProductListForMap((List<Product>) map.get("list"));
 
 		// 출력을 위한 Obejct들
 		resultMap.put("title", title);
-//		resultMap.put("columList", columList);
 		resultMap.put("unitList", unitList);
 		resultMap.put("searchOptionList", searchOptionList);
 		resultMap.put("resultPage", resultPage);

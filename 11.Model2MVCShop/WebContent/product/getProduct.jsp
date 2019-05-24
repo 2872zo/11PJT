@@ -80,12 +80,14 @@
 		});
 		
 		
-		$("a:contains('수정')").on("click",function(){
+		$("#updateProduct").on("click",function(){
 			location.href ="/product/updateProductView?prodNo=${product.prodNo}";
 		});
 		
-		$("a:contains('삭제')").on("click",function(){
-			location.href ="/product/deleteProduct?prodNo=${product.prodNo}";
+		$("#deleteProduct").on("click",function(){
+			if(confirm("삭제하시겠습니까?")==true){
+				location.href ="/product/deleteProduct?prodNo=${product.prodNo}";
+			}
 		});
 		
 		
@@ -124,78 +126,14 @@
 <body bgcolor="#ffffff" text="#000000">
 
 <form name="detailForm" method="post" action="/purchase/addPurchaseView">
-<input type="hidden" name="prodNo" id="prodNo">
+	<input type="hidden" name="prodNo" id="prodNo">
 
-<!-- 상세 정보 출력 -->
-<c:import url="../common/productDetail.jsp"/>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-
-		<table border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<c:if test="${user.role eq 'admin' && product.stock > 0}">
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a>삭제</a>
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-					<td width="30"></td>
-					
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a>수정</a>
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-					<td width="30"></td>
-				</c:if>
-			
-				<c:if test="${user.role eq 'user' && product.stock > 0}">
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a>구매</a>
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-					<td width="30"></td>
-					
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-						<a>담기</a>
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23">
-					</td>
-					<td width="30"></td>
-				</c:if>
-				
-			</tr>
-		</table>
-
-		</td>
-	</tr>
-</table>
-
-<!-- 리뷰 출력 -->
-<br/><br/>
-<c:import url="../common/listPrinter.jsp">
-	<c:param name="unitList" value="${reviewList}"/>
-</c:import>
+	<!-- 상세 정보 출력 -->
+	<c:import url="/common/productDetail.jsp"/>
+	
+	<!-- 리뷰 출력 -->
+	<br/><br/>
+	<c:import url="../common/listPrinter.jsp"/>
 
 </form>
 

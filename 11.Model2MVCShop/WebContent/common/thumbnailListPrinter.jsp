@@ -29,7 +29,7 @@
 	                    </span>
 	                </h4>
 	                <div style="width: 320px; height: 320px; overflow: hidden; display:flex; justify-content:center; align-items:center; padding:25; margin:0px auto">
-  						<img src="/images/uploadFiles/${unit.fileName}" style="max-width: 100%; max-height: 100%; horizon-align:middle; vertical-align:middle;">
+  						<img src="/images/uploadFiles/${unit.fileName}" onerror='this.src="/images/uploadFiles/error_temp_Image.png' style="max-width: 100%; max-height: 100%; horizon-align:middle; vertical-align:middle;">
 					</div>
 	                &nbsp;<span class="fas fa-won-sign"></span>&nbsp;${unit.price}
 	                <a href="#" class="btn btn-primary col-xs-12" role="button" style="color: white">상세 보기</a>

@@ -47,7 +47,7 @@
 								<option ${(empty search || search.pageSize eq 3)?"selected='selected'":""}>3</option>
 								<option value="5"  ${(!empty search && search.pageSize eq 5)?"selected='selected'":""}>5</option>
 								<option value="8"  ${(!empty search && search.pageSize eq 8)?"selected='selected'":""}>8</option>
-								<option value="9"  ${(!empty search && search.pageSize eq 9)?"selected='selected'":""}>8</option>
+								<option value="9"  ${(!empty search && search.pageSize eq 9)?"selected='selected'":""}>9</option>
 								<option value="10" ${(!empty search && search.pageSize eq 10)?"selected='selected'":""}>10</option>
 								<option value="15" ${(!empty search && search.pageSize eq 15)?"selected='selected'":""}>15</option>
 							</select>
@@ -105,7 +105,7 @@
 							</c:if>
 							
 							<c:set var="j" value="0"/>
-							<c:forEach begin="0" end="${fn:length(columList)-1 }">
+							<c:forEach begin="0" end="${(!empty columList?(fn:length(columList)-1):(fn:length(list)-1))}">
 								<td>
 									<c:if test="${!empty list[j]}">
 										${fn:replace(list[j],"\\n","<br/>")}

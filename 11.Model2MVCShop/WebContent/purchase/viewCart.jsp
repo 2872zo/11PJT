@@ -191,86 +191,81 @@
 </head>
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm">
+<form class="form-horizontal" name="detailForm">
 <c:import url="../common/listPrinter.jsp"/>
 
-<table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">
-			구매자아이디 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-		</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${user.userId}</td>
-		
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매방법</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<select name="paymentOption" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20">
+	<div class="container">
+		  <div class="form-group">
+		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">구매자 아이디</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="userId" name="userId" value="${user.userId }">
+		      <span id="helpBlock" class="help-block">
+		      </span>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="paymentOption" class="col-sm-offset-1 col-sm-3 control-label">비밀번호</label>
+		    <div class="col-sm-4">
+		      <select name="paymentOption" class="form-control">
 				<option value="0" selected="selected">현금구매</option>
 				<option value="1">신용구매</option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자이름</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input type="text" name="receiverName" 	class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20" value="${user.userName}"/>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자연락처</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="receiverPhone" class="ct_input_g" 
-							style="width: 100px; height: 19px" maxLength="20" value="${user.phone}"/>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자주소</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" class="dlvyAddr" name="zonecode" 	  style="width: 50px; height: 19px" maxLength="20" value="${user.addr}"/>
-			<input 	type="text" class="dlvyAddr" name="firstAddress"  style="width: 300px; height: 19px" maxLength="20" value="${user.addr}"/>
-			<input 	type="text" class="dlvyAddr" name="secondAddress" style="width: 300px; height: 19px" maxLength="20" value="${user.addr}"/>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">배송희망일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td width="200" class="ct_write01">
-			<input 	type="text" readonly="readonly" id="datepicker" name="dlvyDate" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20"/>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-</table>
+			  </select>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="password2" class="col-sm-offset-1 col-sm-3 control-label">구매자 이름</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="receiverName" name="receiverName" value="${user.userName }">
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">휴대전화번호</label>
+		     <div class="col-sm-2">
+		      <select class="form-control" name="phone1" id="phone1">
+				  	<option value="010" >010</option>
+					<option value="011" >011</option>
+					<option value="016" >016</option>
+					<option value="018" >018</option>
+					<option value="019" >019</option>
+				</select>
+		    </div>
+		    <div class="col-sm-2">
+		      <input type="text" class="form-control" id="phone2" name="phone2" placeholder="번호">
+		    </div>
+		    <div class="col-sm-2">
+		      <input type="text" class="form-control" id="phone3" name="phone3" placeholder="번호">
+		    </div>
+		    <input type="hidden" name="phone"  />
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">주소</label>
+		    <div class="col-sm-4">
+		      	<input 	type="text" class="dlvyAddr form-control" name="zonecode" style="width: 100px;" readonly="readonly" placeholder="우편번호"/>
+				<input 	type="text" class="dlvyAddr form-control" name="firstAddress" readonly="readonly" placeholder="기본 주소"/>
+				<input 	type="text" class="dlvyAddr form-control" name="secondAddress" maxLength="20" placeholder="상세 주소"/>
+		    </div>
+		  </div>
+		  
+		   <div class="form-group">
+		    <label for="dlvyDate" class="col-sm-offset-1 col-sm-3 control-label">배송희망일자</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" readonly="readonly" id="datepicker" name="dlvyDate"/>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <div class="col-sm-offset-4  col-sm-4 text-center">
+		      <button type="button" class="btn btn-primary"  >구 &nbsp;매</button>
+			  <button type="button" class="btn btn-primary"  >취 &nbsp; 소</button>
+		    </div>
+		  </div>
+	</div>
+
+
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>

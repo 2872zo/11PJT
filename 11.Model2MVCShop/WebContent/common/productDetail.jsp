@@ -10,7 +10,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
 <style>
-.star-rating { width:85px; }
+.star-rating { width:79px; }
 .star-rating,.star-rating span { display:inline-block; height:13px; overflow:hidden; background:url(/images/star.png)no-repeat; }
 .star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
 </style>
@@ -62,10 +62,19 @@
 							
 						</div>
 						<p class="product-description">${map.prodDetail }</p>
-						<h4 class="price">current price: <span>${map.price }&nbsp;<span class="fa fa-krw"></span></span></h4>
+						<h4 class="price"> price: <span>${map.price }&nbsp;<span class="fa fa-krw"></span></span></h4>
 						<div class="action">
-							<button class="add-to-cart btn btn-default" type="button">add to cart</button>
-							<button class="buy btn btn-default" type="button">buy</button>
+							<c:if test="${user.role eq 'admin' && product.stock > 0}">
+								<button id="updateProduct" class="add-to-cart btn btn-default" type="button">수정</button>
+								<button id="deleteProduct" class="buy btn btn-default" type="button">삭제</button>
+							</c:if>
+							<c:if test="${user.role eq 'user' && product.stock > 0}">
+								<button id="add-to-cart" class="add-to-cart btn btn-default" type="button">add to cart</button>
+								<button id="buy" class="buy btn btn-default" type="button">buy</button>
+							</c:if>
+							<c:if test="${!(user.role eq 'user' && product.stock > 0)}">
+								<button class="btn btn-danger btn-lg" type="button" disabled="disabled">현재 품절된 상품 입니다.</button>
+							</c:if>
 						</div>
 					</div>
 				</div>

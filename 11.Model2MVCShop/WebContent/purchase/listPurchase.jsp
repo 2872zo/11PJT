@@ -33,9 +33,16 @@
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="../javascript/CommonScript.js"></script>
+<script src="/javascript/CommonScript.js"></script>
+<script src="/javascript/listPurchase.js"></script>
 <script type="text/javascript">
 	$(function(){
+		// hidden value 설정
+		$("#currentPage").val("${empty resultPage.currentPage?1:resultPage.currentPage}");
+		$("#menu").val("${param.menu}");
+		$("#sortCode").val("${search.sortCode}");
+		$("#hiddingEmptyStock").val("${search.hiddingEmptyStock}");
+		
 		var tranNoList = [${tranNoList}];
 		var prodNoList = [${prodNoList}];
 		
@@ -132,52 +139,20 @@
 			fncGetList(${resultPage.beginUnitPage-1});
 		});
 		$(".page").on("click",function(){
+			alert($(this).text());
 			fncGetList($(this).text());
 		});
 		$("#nextPage").on("click",function(){
 			fncGetList(${resultPage.endUnitPage+1});
 		});
-	});
-	
-	function fncGetList(currentPage){
-		$("input[name=currentPage]").val(currentPage);
-		$("input[name=menu]").val("${param.menu}");
-
-		$("form[name=detailForm]").submit();
-	}
-	
-	function fncUpdatePurchaseCode(target,tranNo,tranCode){		
-		UpdateData("transaction","tran_status_code",tranCode,tranNo,"tran_no",function(output){
 		
-			if(output){
-				target.empty();
-				if($(target.parent().find("td")[8]).text() == "배송준비중"){
-					$(target.parent().find("td")[8]).text("배송중");
-				}else if($(target.parent().find("td")[8]).text() == "배송중"){
-					$(target.parent().find("td")[8]).text("거래완료");
-				}
-			}
+		$("#Previous").on("click",function(){
+			fncGetList(Number($("[name=currentPage]").val())-1);
 		});
-	}
-
-	function fncSortList(currentPage, sortCode){
-		$("input[name=currentPage]").val(currentPage);
-		$("input[name=menu]").val("${param.menu}");
-		$("input[name=sortCode]").val(sortCode);
-
-		$("form").submit();
-	}
-
-	function fncHiddingEmptyStock(currentPage, hiddingEmptyStock){
-		$("input[name=currentPage]").val(currentPage);
-		$("input[name=hiddingEmptyStock]").val(hiddingEmptyStock);
-
-		$("form").submit();
-	}
-
-	function fncResetSearchCondition(){
-		location.href = "/purchase/listPurchase";
-	}
+		$("#Next").on("click",function(){
+			fncGetList(Number($("[name=currentPage]").val())+1);
+		});
+	});
 </script>
 
 	<c:if test="${!empty user}"> <c:import url="/layout/toolbar.jsp">  </c:import></c:if>
@@ -190,24 +165,22 @@
 
 <div class="container" style="width: 98%; margin-left: 10px;">
 
-	<form name="detailForm" action="/purchase/listPurchase" method="post">
-	
+	<form name="detailForm">
+		<input type="hidden" id="currentPage" name="currentPage"/>
+		<input type="hidden" id="menu" name="menu"/>
+		<input type="hidden" id="sortCode" name="sortCode"/>
+		<input type="hidden" id="hiddingEmptyStock" name="hiddingEmptyStock"/>
+		
 		<%-- list출력 부분 --%>
-		<c:import url="../common/listPrinter.jsp">
-			<c:param name="domainName" value="Purchase"/>
-		</c:import>
+		<c:import url="../common/listPrinter.jsp"/>
+		
+		<c:import url="/common/pageNavigator.jsp"/>
+		
+		
 		
 		<table class="table">
 			<tr>
 				<td align="center">
-					<input type="hidden" id="currentPage" name="currentPage" value=""/>
-					<input type="hidden" id="menu" name="menu" value=""/>
-					<input type="hidden" id="sortCode" name="sortCode" value="${search.sortCode}"/>
-					<input type="hidden" id="hiddingEmptyStock" name="hiddingEmptyStock" value="${search.hiddingEmptyStock}"/>
-					
-					<c:import url="/common/pageNavigator.jsp">
-						<c:param name="domainName" value="Purchase"/>
-					</c:import>	
 				</td>
 			</tr>
 			<tr>

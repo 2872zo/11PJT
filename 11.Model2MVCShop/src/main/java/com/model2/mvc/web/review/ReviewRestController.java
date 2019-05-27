@@ -26,7 +26,8 @@ public class ReviewRestController {
 	}
 
 	@RequestMapping("json/getReview")
-	public Review getReview(@RequestParam("reviewNo") int reviewNo) throws Exception {
+	public Review getReview(@RequestBody Map<String,String> map) throws Exception {
+		int reviewNo = Integer.parseInt(map.get("reviewNo"));
 		return reviewService.getReview(reviewNo);
 	}
 	

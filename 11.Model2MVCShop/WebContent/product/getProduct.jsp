@@ -90,27 +90,31 @@
 			}
 		});
 		
-		
-		$(".ct_list_pop").on("click",function(){
-			var reviewNo = $($(this).find("td")[0]).text();
-			var target = $(this).next().find("td");
+		<%-- 리뷰출력 클릭 --%>
+		$("div tr").on("click",function(){
+			var reviewNo = $($(this).find("td")[0]).text().trim();
+			var jsonData = JSON.stringify({reviewNo:reviewNo});
+// 			var target = $(this).next().find("td");
 			
-			if($(document).find(".text") != null){
-				if(!target.find("div").hasClass("text")){
-					$(document).find(".text").remove();
-					
-//		 			alert($($(this).find("td")[0]).text());
-					GetData("review","review_no","text",reviewNo,function(output){
-//		 				alert(output);
-						var text = $.parseJSON(output);
-//		 				alert(text);
-						target.append("<div class='text'>"+text+"</div>");
-					});
-				}else{
-					$(document).find(".text").remove();
+			alert(jsonData);
+			
+			$.ajax({
+				url:"/review/json/getReview",
+				method:"POST",
+				contentType :"application/json; charset=EUC-KR",
+				data:jsonData,
+				success:function(data){
+					alert("success " + data);
+				},
+				error:function(){
+					alert("error");
 				}
-			}
+			});
+			
 		});
+		<%-- 리뷰출력 클릭 끝 --%>
+		
+		
 	});
 	
 	
@@ -133,7 +137,14 @@
 	
 	<!-- 리뷰 출력 -->
 	<br/><br/>
-	<c:import url="../common/listPrinter.jsp"/>
+	<div class="review">
+		<c:import url="/common/listPrinter.jsp"/>
+	</div>
+	
+	<div class="tmpReview">
+		<td></td>
+	</div>
+
 
 </form>
 

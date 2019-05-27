@@ -90,29 +90,18 @@
 			}
 		});
 		
-		<%-- 리뷰출력 클릭 --%>
-		$("div tr").on("click",function(){
-			var reviewNo = $($(this).find("td")[0]).text().trim();
-			var jsonData = JSON.stringify({reviewNo:reviewNo});
-// 			var target = $(this).next().find("td");
-			
-			alert(jsonData);
-			
-			$.ajax({
-				url:"/review/json/getReview",
-				method:"POST",
-				contentType :"application/json; charset=EUC-KR",
-				data:jsonData,
-				success:function(data){
-					alert("success " + data);
-				},
-				error:function(){
-					alert("error");
-				}
-			});
-			
-		});
-		<%-- 리뷰출력 클릭 끝 --%>
+		<%---------- 리뷰출력 ----------%>
+		$(".review table").removeClass("table-striped");
+		$("div tr:nth-child(2n+1)").addClass("accordion");
+		$("div tr:nth-child(2n) td").not($("div tr:nth-child(2n) td:nth-child(4n+1)")).remove();
+		$("div tr:nth-child(2n) td").attr("colspan","4");
+		
+		$(".review tr:not(.accordion)").hide();
+		
+		$(".review tr:nth-child(2n+1)").click(function(){
+		      $(this).next("tr").fadeToggle(500);
+		  }).eq(0).trigger('click');
+		<%---------- 리뷰출력 끝 ----------%>
 		
 		
 	});
@@ -141,11 +130,6 @@
 		<c:import url="/common/listPrinter.jsp"/>
 	</div>
 	
-	<div class="tmpReview">
-		<td></td>
-	</div>
-
-
 </form>
 
 </body>

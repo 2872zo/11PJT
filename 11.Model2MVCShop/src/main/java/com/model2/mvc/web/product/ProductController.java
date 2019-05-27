@@ -121,6 +121,19 @@ public class ProductController {
 			unitDetail.add(reviewList.get(i).getUserId());
 			unitDetail.add(String.valueOf(reviewList.get(i).getRating()));	
 			unitList.add(unitDetail);
+			
+			String result = new String();
+			if(reviewList.get(i).getFileName() != null) {
+				String[] tmpString = reviewList.get(i).getFileName().split(",");
+				for(int j=0; j < tmpString.length; j++) {
+					result += "<img src='/images/uploadFiles/"+tmpString[j]+"'/><br/>";
+				}
+			}
+			result += reviewList.get(i).getText();
+			System.out.println("resultString : " + result);
+			unitDetail = new Vector<String>();
+			unitDetail.add(result);
+			unitList.add(unitDetail);
 			avgRating += reviewList.get(i).getRating();
 		}
 		if(avgRating != 0) {

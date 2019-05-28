@@ -50,12 +50,13 @@
 		      autoOpen: false
 		});
 		
-		$("tr.ct_list_pop td:nth-child(5)").on("click",function(){
+		$(".table-body td:nth-child(3)").wrapInner("<ins></ins>");
+		$(".table-body td:nth-child(3)").on("click",function(){
 			location.href = "/product/getProduct?prodNo="+prodNoList[$($("td",$(this).parent())[0]).text()-1];
 		});	
 		
-		$("tr.ct_list_pop td:nth-child(1)").wrapInner("<ins></ins>");
-		$("tr.ct_list_pop td:nth-child(1)").on("click",function(){
+		$(".table-body td:nth-child(1)").wrapInner("<ins></ins>");
+		$(".table-body td:nth-child(1)").on("click",function(){
 			location.href = "/purchase/getPurchase?tranNo="+tranNoList[$(this).text()-1];
 		});	
 		

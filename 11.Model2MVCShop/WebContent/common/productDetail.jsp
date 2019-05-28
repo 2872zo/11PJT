@@ -27,10 +27,10 @@
 						  <c:set var="i" value="0"/>
 						  <c:forEach items="${map.fileNames}" var="fileName" begin="0">
 						  	<c:if test="${i eq 0}">	
-						  	  <div class="tab-pane active" id="pic-${i}"><img src="${fileName}"/></div>
+						  	  <div class="tab-pane active" id="pic-${i}"><img src="${fileName}" onerror="this.src='/images/uploadFiles/error_temp_Image.png'"/></div>
 						  	</c:if>
 						  	<c:if test="${i ne 0}">
-						  	  <div class="tab-pane" id="pic-${i}"><img src="${fileName}" /></div>
+						  	  <div class="tab-pane" id="pic-${i}"><img src="${fileName}" onerror="this.src='/images/uploadFiles/error_temp_Image.png'"/></div>
 						  	</c:if>
 						  	<c:set var="i" value="${i+1}"/>
 						  </c:forEach>
@@ -40,10 +40,10 @@
 						  <c:set var="i" value="0"/>
 						  <c:forEach items="${map.fileNames}" var="fileName">
 						  	<c:if test="${i eq 0 }">
-						  	  <li class="active"><a data-target="#pic-${i}" data-toggle="tab"><img src="${fileName}" /></a></li>
+						  	  <li class="active"><a data-target="#pic-${i}" data-toggle="tab"><img src="${fileName}" onerror="this.src='/images/uploadFiles/error_temp_Image.png'"/></a></li>
 						  	</c:if>
 						  	<c:if test="${i ne 0}">
-						  	  <li><a data-target="#pic-${i}" data-toggle="tab"><img src="${fileName}" /></a></li>
+						  	  <li><a data-target="#pic-${i}" data-toggle="tab"><img src="${fileName}" onerror="this.src='/images/uploadFiles/error_temp_Image.png'"/></a></li>
 						  	</c:if>
 						  	<c:set var="i" value="${i+1}"/>
 						  </c:forEach>
@@ -64,6 +64,9 @@
 						<p class="product-description">${map.prodDetail }</p>
 						<h4 class="price"> price: <span>${map.price }&nbsp;<span class="fa fa-krw"></span></span></h4>
 						<div class="action">
+							<c:if test="${empty sessionScope.user}">
+								<button class="btn btn-info btn-lg" type="button" id="login">로그인이 필요합니다.</button>
+							</c:if>
 							<c:if test="${user.role eq 'admin' && product.stock > 0}">
 								<button id="updateProduct" class="add-to-cart btn btn-default" type="button">수정</button>
 								<button id="deleteProduct" class="buy btn btn-default" type="button">삭제</button>
@@ -72,7 +75,7 @@
 								<button id="add-to-cart" class="add-to-cart btn btn-default" type="button">add to cart</button>
 								<button id="buy" class="buy btn btn-default" type="button">buy</button>
 							</c:if>
-							<c:if test="${!(user.role eq 'user' && product.stock > 0)}">
+							<c:if test="${!empty sessionScope.user && !(user.role eq 'user' && product.stock > 0)}">
 								<button class="btn btn-danger btn-lg" type="button" disabled="disabled">현재 품절된 상품 입니다.</button>
 							</c:if>
 						</div>

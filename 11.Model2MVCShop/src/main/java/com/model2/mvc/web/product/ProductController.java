@@ -130,7 +130,10 @@ public class ProductController {
 				}
 			}
 			result += reviewList.get(i).getText();
-			System.out.println("resultString : " + result);
+//			System.out.println("resultString : " + result);
+			
+			result += "<br/><button class='btn btn-default pull-right'>수정</button>&nbsp;<button class='btn btn-default pull-right'>삭제</button>";
+			
 			unitDetail = new Vector<String>();
 			unitDetail.add(result);
 			unitList.add(unitDetail);

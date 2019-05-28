@@ -32,6 +32,7 @@
 	         	<!-- Tool Bar 를 다양하게 사용하면.... -->
 	             <ul class="nav navbar-nav">
 	             
+                  <c:if test="${sessionScope.user.role == 'admin'}">
 	              <!--  회원관리 DrowDown -->
 	              <li class="dropdown">
 	                     <a  href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -41,11 +42,10 @@
 	                     <ul class="dropdown-menu">
 	                         
 	                         
-	                         <c:if test="${sessionScope.user.role == 'admin'}">
 	                         	<li><a href="#">회원정보조회</a></li>
-	                         </c:if>
 	                     </ul>
 	                 </li>
+                  </c:if>
 	                 
 	              <!-- 판매상품관리 DrowDown  -->
 	               <c:if test="${sessionScope.user.role == 'admin'}">
@@ -148,11 +148,11 @@
 			$(self.location).attr("href","javascript:history()");
 		});
 	 	//=============  구매이력조회, 거래관리 Event  처리 =============	
-	 	$( "a:contains('구매이력조회'), a:contains('거래관리')" ).on("click" , function() {
+	 	$( "a:contains('구매이력조회'), a:contains('거래내역')" ).on("click" , function() {
 	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			$(self.location).attr("href","/purchase/listPurchase");
 		});
-	 	
+	 		 	
 ///////////////////////////////////////toolbar right////////////////////////////////////////
 	 	//=============  장바구니 Event  처리 =============	
 	 	$( ".glyphicon-shopping-cart" ).on("click" , function() {

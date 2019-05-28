@@ -67,7 +67,7 @@
 			<!-- colum 출력 -->
 			<c:if test="${!empty columList}">
 				<thead>
-					<tr>
+					<tr class="table-colum">
 						<!-- checkbox 출력 -->
 						<c:if test="${!empty checkboxOn}">
 							<th style="align : center"> 
@@ -96,7 +96,7 @@
 					<c:set var="i" value="0"/>
 					<c:forEach var="list" items="${unitList}">
 						<c:set var="i" value="${i+1}"/>
-						<tr>
+						<tr class="table-body">
 						
 							<c:if test="${!empty checkboxOn}">
 								<td align="center"> 

@@ -103,7 +103,9 @@
 		  }).eq(0).trigger('click');
 		<%---------- ¸®ºäÃâ·Â ³¡ ----------%>
 		
-		
+		$("#login").on("click",function(){
+			location.href="/user/loginView.jsp";
+		});
 	});
 	
 	

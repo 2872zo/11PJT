@@ -150,7 +150,7 @@
 			});
 		});	
 		
-		makeSelect($("tr.ct_list_pop td:nth-child(11)"));
+		makeSelect($("table tr td:nth-child(5)"));
 		
 		$("a:contains('¿Ã¿¸')").on("click",function(){
 			history.go(-1);
@@ -172,13 +172,13 @@
 			countCheckBox();
 		});
 		
-		$("tr.ct_list_pop td:nth-child(13)").on("click",function(){
+		$("table tr td:nth-child(6)").on("click",function(){
 			deleteCart($(this).parent());
 		});
 		
 		
 	});
-	
+		
 	
 </script>
 <head>

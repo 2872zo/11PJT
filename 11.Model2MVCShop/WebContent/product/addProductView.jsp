@@ -149,7 +149,7 @@
 		      <button type="button" class="btn btn-primary" id="add" >등 &nbsp;록</button>
 			  <button type="button" class="btn btn-primary" id="reset">취&nbsp;소</button>
 		    </div>
-		  </div>
+		 </div>
 	</form>
 </div>
 </body>

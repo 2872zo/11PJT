@@ -7,9 +7,30 @@
 <head>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<title>구매정보 수정</title>
+<!--  ///////////////////////// 툴바 이용을 위한 lib START ////////////////////////// -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+<!--   jQuery , Bootstrap CDN  -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- Bootstrap Dropdown Hover CSS -->
+  <link href="/css/animate.min.css" rel="stylesheet">
+  <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
+  
+   <!-- Bootstrap Dropdown Hover JS -->
+  <script src="/javascript/bootstrap-dropdownhover.min.js"></script>
+
+<!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
+<style>
+       body {
+           padding-top : 70px;
+       }
+</style>
+<!--  ///////////////////////// 툴바 이용을 위한 lib END ////////////////////////// -->
+
 <script type="text/javascript">
 $(function(){
 	$("#cancel").on("click",function(){
@@ -65,146 +86,117 @@ function fncUpdatePurchase() {
 <script type="text/javascript" src="../javascript/calendar.js">
 </script>
 
+<c:if test="${!empty user}"><c:import url="/layout/toolbar.jsp"></c:import></c:if>
+<c:if test="${empty user}"><c:import url="/layout/toolbar2.jsp"></c:import></c:if>
+
+<title>구매정보 수정</title>
+
 </head>
 
-<body bgcolor="#ffffff" text="#000000">
+<body>
 
-<form name="updatePurchase">
-<input type="hidden" name="prodNo" value="${purchase.purchaseProd.prodNo}">
-<input type="hidden" name="tranNo" value="${purchase.tranNo}">
-<table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
-	<tr>
-		<td width="15" height="37">
-			<img src="/images/ct_ttl_img01.gif"  width="15" height="37"/>
-		</td>
-		<td background="/images/ct_ttl_img02.gif" width="100%" style="padding-left: 10px;">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="93%" class="ct_ttl01">구매정보수정</td>
-					<td width="20%" align="right">&nbsp;</td>
-				</tr>
-			</table>
-		</td>
-		<td width="12" height="37">
-			<img src="/images/ct_ttl_img03.gif" width="12" height="37"/>
-		</td>
-	</tr>
-</table>
-
-<table width="600" border="0" cellspacing="0" cellpadding="0"	align="center" style="margin-top: 13px;">
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자아이디</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${purchase.buyer.userId}</td>
-		<input type="hidden" name="buyerId" value="${purchase.buyer.userId}">
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매방법</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<select name="paymentOption" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20">
-				<option value="1" ${purchase.paymentOption eq '0'?"selected='selected'":""}>현금구매</option>
-				<option value="2" ${purchase.paymentOption eq '1'?"selected='selected'":""}>신용구매</option>
-			</select>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자이름</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="receiverName" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.receiverName}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자 연락처</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.receiverPhone}" />
-		</td>
-	</tr>
-
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매자주소</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="dlvyAddr" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.dlvyAddr}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">구매요청사항</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">
-			<input 	type="text" name="dlvyRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${purchase.dlvyRequest}" />
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	<tr>
-		<td width="104" class="ct_write">배송희망일자</td>
-		<td bgcolor="D6D6D6" width="1"></td>
-		<td width="200" class="ct_write01">
-			<input type="text" id="datepicker" name="dlvyDate" class="ct_input_g" style="width: 100px; height: 19px" maxLength="20" value="${purchase.dlvyDate}"/>
-		</td>
-	</tr>
-	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-</table>
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-		<table border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-					<a href="#" id="update">수정</a>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-				</td>
-				<td width="30"></td>
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a href="#" id="cancel">취소</a>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-				</td>
-			</tr>
-		</table>
-		</td>
-	</tr>
-</table>
-</form>
+	<div class="container">
+		
+		<div class="page-header">
+	       <h3 class=" text-info">구매정보수정</h3>
+	    </div>
+		
+		<form class="form-horizontal">
+		
+			<input type="hidden" name="prodNo" value="${purchase.purchaseProd.prodNo}">
+			<input type="hidden" name="tranNo" value="${purchase.tranNo}">
+			
+			<div class="form-group">
+			    <label class="col-sm-offset-1 col-sm-3 control-label">구매자 아이디</label>
+			    <div class="col-sm-4">
+			    	<input type="text" id="userId" name="userId" class="form-control" value="${purchase.buyer.userId}"/>
+				</div>
+			</div>
+			
+			<hr/>
+		
+			<div class="form-group">
+			    <label class="col-sm-offset-1 col-sm-3 control-label">구매 수량</label>
+			    <div class="col-sm-4">
+			    	<select name="Quantity" class="form-control">
+						<c:forEach var="i" begin="1" end="${product.stock}">
+							<option value="${i}">${i}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			
+			<hr/>
+			
+			<div class="form-group">
+			    <label class="col-sm-offset-1 col-sm-3 control-label">구매 방법</label>
+			    <div class="col-sm-4">
+			    	<select name="paymentOption" class="form-control">
+						<option value="1" ${purchase.paymentOption eq '0'?"selected='selected'":""}>현금구매</option>
+						<option value="2" ${purchase.paymentOption eq '1'?"selected='selected'":""}>신용구매</option>
+					</select>
+				</div>
+			</div>
+			
+			<hr/>
+			
+			<div class="form-group">
+			    <label for="receiverName" class="col-sm-offset-1 col-sm-3 control-label">구매자 이름</label>
+			    <div class="col-sm-4">
+			    	<input type="text" id="receiverName" name="receiverName" class="form-control" value="${purchase.receiverName}"/>
+				</div>
+			</div>
+			
+			<hr/>
+			
+			<div class="form-group">
+			    <label for="receiverPhone" class="col-sm-offset-1 col-sm-3 control-label">구매자 연락처</label>
+			    <div class="col-sm-4">
+			    	<input 	type="text" id="receiverPhone" name="receiverPhone" class="form-control" value="${purchase.receiverPhone}"/>
+				</div>
+			</div>
+			
+			<hr/>
+			
+			<div class="form-group">
+			    <label class="col-sm-offset-1 col-sm-3 control-label">구매자 주소</label>
+			    <div class="col-sm-4">
+			    	<input 	type="text" class="dlvyAddr form-control" name="zonecode" 	   value="${purchase.zoneCode}" 		placeholder="우편번호" readonly="readonly"/>
+					<input 	type="text" class="dlvyAddr form-control" name="firstAddress"  value="${purchase.firstAddress}" 	placeholder="기본주소" readonly="readonly"/>
+					<input 	type="text" class="dlvyAddr form-control" name="secondAddress" value="${purchase.secondAddress}" 	placeholder="상세주소"/>
+				</div>
+			</div>
+			
+			<hr/>
+			
+			<div class="form-group">
+			    <label for="dlvyRequest" class="col-sm-offset-1 col-sm-3 control-label">요청사항</label>
+			    <div class="col-sm-4">
+			    	<input type="text" name="dlvyRequest" class="form-control" value="${purchase.dlvyRequest}"/>
+				</div>
+			</div>
+			
+			<hr/>
+			
+			<div class="form-group">
+			    <label for="dlvyRequest" class="col-sm-offset-1 col-sm-3 control-label">배송희망일자</label>
+			    <div class="col-sm-4">
+			    	<input type="text" readonly="readonly" id="datepicker" name="dlvyDate" class="form-control" value="${purchase.dlvyDate}"/>
+				</div>
+			</div>
+			
+			<hr/>
+			
+			<div class="form-group">
+		    <div class="col-sm-offset-4  col-sm-4 text-center">
+		      <button class="btn btn-primary" id="update">수정</button>
+			  <button class="btn btn-primary" id="cancel">취 소</button>
+		    </div>
+		  </div>
+			
+		</form>
+		
+	</div>
 
 </body>
 </html>

@@ -14,6 +14,9 @@ public class User {
 	private String ssn;
 	private String phone;
 	private String addr;
+	private String zonecode;
+	private String firstAddress;
+	private String secondAddress;
 	private String email;
 	private Date regDate;
 	/////////////// EL 적용 위해 추가된 Field ///////////
@@ -71,10 +74,23 @@ public class User {
 		}
 	}
 	public String getAddr() {
-		return addr;
+		if(this.zonecode != null && this.firstAddress != null && this.secondAddress != null) {
+			return this.zonecode+","+this.firstAddress+","+this.secondAddress;
+		}else {
+			return addr;
+		}
 	}
 	public void setAddr(String addr) {
-		this.addr = addr;
+		if(addr != null) {
+			String[] stringArray = addr.split(",");
+			if(stringArray.length > 1) {
+				setZonecode(stringArray[0]);
+				setFirstAddress(stringArray[1]);
+				setSecondAddress(stringArray[2]);
+			}else {
+				this.addr = addr;
+			}
+		}
 	}
 	public String getEmail() {
 		return email;
@@ -99,9 +115,36 @@ public class User {
 		return phone3;
 	}
 
+	public String getZonecode() {
+		return zonecode;
+	}
+
+	public String getFirstAddress() {
+		return firstAddress;
+	}
+
+	public String getSecondAddress() {
+		return secondAddress;
+	}
+
+	public void setZonecode(String zonecode) {
+		this.zonecode = zonecode;
+	}
+
+	public void setFirstAddress(String firstAddress) {
+		this.firstAddress = firstAddress;
+	}
+
+	public void setSecondAddress(String secondAddress) {
+		this.secondAddress = secondAddress;
+	}
+
 	@Override
 	public String toString() {
-		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
-			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate;
+		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", role=" + role
+				+ ", ssn=" + ssn + ", phone=" + phone + ", addr=" + addr + ", zonecode=" + zonecode + ", firstAddress="
+				+ firstAddress + ", secondAddress=" + secondAddress + ", email=" + email + ", regDate=" + regDate
+				+ ", phone1=" + phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + "]";
 	}
+
 }

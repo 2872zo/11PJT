@@ -52,6 +52,7 @@ $(function(){
 	$("#menu").val("${param.menu}");
 	$("#sortCode").val("${search.sortCode}");
 	$("#hiddingEmptyStock").val("${search.hiddingEmptyStock}");
+	$("#hideOption").val($(".hideOption").val());
 	
 	//thumbnail 위의 tooltip기능 
 	$('[data-toggle="tooltip"]').tooltip();
@@ -164,6 +165,8 @@ $(function(){
 	<input type="hidden" id="menu" name="menu"/>
 	<input type="hidden" id="sortCode" name="sortCode"/>
 	<input type="hidden" id="hiddingEmptyStock" name="hiddingEmptyStock"/>
+	<input type="hidden" id="hideOption" name="hideOption"/>
+	
 	
 <c:import url="../common/thumbnailListPrinter.jsp"/>
 

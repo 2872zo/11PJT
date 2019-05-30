@@ -119,7 +119,15 @@ public class ProductController {
 			unitDetail.add(String.valueOf(reviewList.get(i).getReviewNo()));
 			unitDetail.add(reviewList.get(i).getTitle());
 			unitDetail.add(reviewList.get(i).getUserId());
-			unitDetail.add(String.valueOf(reviewList.get(i).getRating()));	
+			String starImg = new String();
+			for(int j =0; j<5;j++) {
+				if(j < reviewList.get(i).getRating()) {
+					starImg += "<img src='/images/star-on.png'/>";
+				}else {
+					starImg += "<img src='/images/star-off.png'/>";
+				}
+			}
+			unitDetail.add(starImg);	
 			unitList.add(unitDetail);
 			
 			String result = new String();
@@ -369,9 +377,9 @@ public class ProductController {
 			unitMap.put("price",String.valueOf(productList.get(i).getPrice()));
 			//제품 사진
 			if(productList.get(i).getFileName() != null) {
-				unitMap.put("fileName",String.valueOf(productList.get(i).getFileName()));
-			}else {
-				unitMap.put("fileName","../empty.GIF");
+				String[] fileNames = productList.get(i).getFileName().split(",");
+				
+				unitMap.put("fileName",String.valueOf(fileNames[0]));
 			}
 			//평균 평점
 			unitMap.put("avgRating", "3");

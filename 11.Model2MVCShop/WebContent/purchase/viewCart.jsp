@@ -47,7 +47,7 @@
 			for(var i = 0; i < $(".listcheckbox:checkbox:checked").length; i++){
 				var product = new Object();
 				
-				product.prodNo = $($($(".listcheckbox:checkbox:checked")[i]).parent().parent().children()[4]).text().trim();
+				product.prodNo = $($($(".listcheckbox:checkbox:checked")[i]).parent().next().next()).text().trim();
 				product.stock = $($($(".listcheckbox:checkbox:checked")[i]).parent().parent().find("select")).val();
 				
 				productArray.push(product);
@@ -116,6 +116,9 @@
 				var selectStart = "<select name=\"quantity\" class=\"ct_input_g\" style=\"width:80px\" id=\"quantity\">";
 				var selectOption = "";
 				for(var j = 1; j <= $(obj[i]).text().trim(); j++){
+					if(j>100){
+						break;
+					}
 					selectOption += "<option value='" + j + "'>" + j + "</option>";
 				}
 				var selectEnd = "</select>";
@@ -150,13 +153,13 @@
 			});
 		});	
 		
-		makeSelect($("table tr td:nth-child(5)"));
+		makeSelect($("table tr td:nth-child(6)"));
 		
-		$("a:contains('이전')").on("click",function(){
+		$("#goBack").on("click",function(){
 			history.go(-1);
 		});
 		
-		$("a:contains('구매')").on("click",function(){
+		$("#buy").on("click",function(){
 			addPurchaseByCart();
 		});	
 		
@@ -192,7 +195,7 @@
 <body bgcolor="#ffffff" text="#000000">
 
 <form class="form-horizontal" name="detailForm">
-<c:import url="../common/listPrinter.jsp"/>
+<c:import url="/common/listPrinter.jsp"/>
 
 	<div class="container">
 		  <div class="form-group">
@@ -259,47 +262,13 @@
 		  
 		  <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >구 &nbsp;매</button>
-			  <button type="button" class="btn btn-primary"  >취 &nbsp; 소</button>
+		      <button type="button" class="btn btn-primary"  id="buy">구 &nbsp;매</button>
+			  <button type="button" class="btn btn-primary"  id="goBack">이 &nbsp;전</button>
 		    </div>
 		  </div>
+		  
 	</div>
-
-
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-
-		<table border="0" cellspacing="0" cellpadding="0">
-			<tr>			
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a>구매</a>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23">
-				</td>
-				<td width="30"></td>
-				
-				<td width="17" height="23">
-					<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-				</td>
-				<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-					<a>이전</a>
-				</td>
-				<td width="14" height="23">
-					<img src="/images/ct_btnbg03.gif" width="14" height="23">
-				</td>
-			</tr>
-		</table>
-		
-		</td>
-	</tr>
-</table>
+	
 </form>
 
 </body>

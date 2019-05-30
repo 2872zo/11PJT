@@ -50,8 +50,9 @@ public class ReviewController {
 	}
 
 	@RequestMapping("addReview")
-	public ModelAndView addReview(@ModelAttribute Review review, @RequestParam("file") MultipartFile[] files) throws Exception {
+	public ModelAndView addReview(@ModelAttribute Review review, @RequestParam("files") MultipartFile[] files) throws Exception {
 		
+		System.out.println("filesLength : " + files.length);
 		if(files!=null && files.length > 0) {
 			String fileName = null;
 			for (MultipartFile file : files) {
@@ -59,8 +60,6 @@ public class ReviewController {
 				if(!file.isEmpty()) {
 					System.out.println("notEmpty");
 					String originFileExtension = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
-//					fileName = (fileName != null ? fileName+"," : "") + file.getOriginalFilename();
-//					File target = new File(savePath, file.getOriginalFilename());
 					String saveFileName = System.currentTimeMillis() + originFileExtension;
 					fileName = (fileName != null ? fileName+"," : "") + saveFileName;
 					File target = new File(savePath, saveFileName);
@@ -94,7 +93,19 @@ public class ReviewController {
 			
 		reviewService.updateReview(review);
 		review = reviewService.getReview(review.getReviewNo());
-		ModelAndView modelAndView = new ModelAndView("forward:/purchase/getPurchase");
+		ModelAndView modelAndView = new ModelAndView("forward:/purchase/listPurchase");
+		
+		modelAndView.addObject("review", review);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("updateReviewView")
+	public ModelAndView updateReviewView(@ModelAttribute Review review) throws Exception {
+			
+		reviewService.updateReview(review);
+		review = reviewService.getReview(review.getReviewNo());
+		ModelAndView modelAndView = new ModelAndView("forward:/review/updateReviewView");
 		
 		modelAndView.addObject("review", review);
 		

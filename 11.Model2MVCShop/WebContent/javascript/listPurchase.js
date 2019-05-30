@@ -1,10 +1,10 @@
 	function fncGetList(currentPage){
 		$("input[name=currentPage]").val(currentPage);
 		
-		alert($("input[name=currentPage]").val());
-
+//		alert($("input[name=currentPage]").val());
 		
-		alert($("form").serialize());
+//		alert($("form").serialize());
+		
 		$("form[name=detailForm]").attr("method","POST").attr("action","/purchase/listPurchase").submit();
 	}
 	
@@ -12,12 +12,14 @@
 		UpdateData("transaction","tran_status_code",tranCode,tranNo,"tran_no",function(output){
 		
 			if(output){
-				target.empty();
-				if($(target.parent().find("td")[8]).text() == "ë°°ì†¡ì¤€ë¹„ì¤‘"){
-					$(target.parent().find("td")[8]).text("ë°°ì†¡ì¤‘");
-				}else if($(target.parent().find("td")[8]).text() == "ë°°ì†¡ì¤‘"){
-					$(target.parent().find("td")[8]).text("ê±°ëž˜ì™„ë£Œ");
+				
+				if(tranCode == 2){
+					$(target.parent().parent().find("td")[4]).text("¹è¼ÛÁß");
+				}else if(tranCode == 3){
+					$(target.parent().parent().find("td")[4]).text("°Å·¡¿Ï·á");
+					target.parent().append("<a>¸®ºäÀÛ¼º</a>");
 				}
+				target.remove();
 			}
 		});
 	}

@@ -11,7 +11,7 @@
 			<div class="form-group">
 				<select class="form-control hideOption">
 						<c:forEach var="i" begin="0" end="${fn:length(hideList)-1}">
-							<option value="${i}" ${param.hiddingEmptyStock eq i?"selected='selected'":""}>${hideList[i]}</option>
+							<option value="${i}" ${param.hideOption eq i?"selected='selected'":""}>${hideList[i]}</option>
 						</c:forEach>
 				</select>
 			</div>

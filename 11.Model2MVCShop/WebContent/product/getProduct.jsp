@@ -25,16 +25,27 @@
 
 <!--  CSS 추가 : 툴바에 화면 가리는 현상 해결 :  주석처리 전, 후 확인-->
 <style>
-       body {
-           padding-top : 70px;
-       }
+    body {
+        padding-top : 70px;
+    }
+       
+    .star-rating { width:79px; }
+	.star-rating,.star-rating span { display:inline-block; height:13px; overflow:hidden; background:url(/images/star.png)no-repeat; }
+	.star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
 </style>
 <!--  ///////////////////////// 툴바 이용을 위한 lib END ////////////////////////// -->
-<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<link href="/css/detail.css" rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
 <script src="../javascript/CommonScript.js"></script>
 <script type="text/javascript">
-	function fncGetAddPurchaseView(prodNo){
-		$("input[name=prodNo]").val(prodNo);
+	function fncGetAddPurchaseView(){
+		$("input[name=prodNo]").val(${product.prodNo});
+		$("input[name=prodName]").val("${product.prodName}");
+		$("input[name=prodDetail]").val("${product.prodDetail}");
+		$("input[name=manuDate]").val(${product.manuDate});
+		$("input[name=price]").val(${product.price});
 		
 		$("form").submit();
 	}
@@ -61,7 +72,7 @@
 	
 	$(function(){
 		$("button:contains('buy')").on("click",function(){
-			fncGetAddPurchaseView(${product.prodNo});
+			fncGetAddPurchaseView();
 		});
 		
 		$("button:contains('add to cart')").on("click",function(){
@@ -120,11 +131,85 @@
 </head>
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm" method="post" action="/purchase/addPurchaseView">
+<form name="detailForm">
 	<input type="hidden" name="prodNo" id="prodNo">
-
-	<!-- 상세 정보 출력 -->
-	<c:import url="/common/productDetail.jsp"/>
+	<input type="hidden" name="prodName" id="prodName">
+	<input type="hidden" name="prodDetail" id="prodDetail">
+	<input type="hidden" name="manuDate" id="manuDate">
+	<input type="hidden" name="price" id="price">
+	
+	<%----------------------------- 상세 정보 출력 --------------------------------------%>
+	<div class="container">
+		<div class="card">
+			<div class="container-fliud">
+				<div class="wrapper row">
+					<div class="preview col-md-6">
+						
+						<div class="preview-pic tab-content">
+						  <c:set var="i" value="0"/>
+						  <c:forEach items="${map.fileNames}" var="fileName" begin="0">
+						  	<c:if test="${i eq 0}">	
+						  	  <div class="tab-pane active" id="pic-${i}"><img src="${fileName}" onerror="this.src='/images/uploadFiles/error_temp_Image.png'"/></div>
+						  	</c:if>
+						  	<c:if test="${i ne 0}">
+						  	  <div class="tab-pane" id="pic-${i}"><img src="${fileName}" onerror="this.src='/images/uploadFiles/error_temp_Image.png'"/></div>
+						  	</c:if>
+						  	<c:set var="i" value="${i+1}"/>
+						  </c:forEach>
+						</div>
+						
+						<ul class="preview-thumbnail nav nav-tabs">
+						  <c:set var="i" value="0"/>
+						  <c:forEach items="${map.fileNames}" var="fileName">
+						  	<c:if test="${i eq 0 }">
+						  	  <li class="active"><a data-target="#pic-${i}" data-toggle="tab"><img src="${fileName}" onerror="this.src='/images/uploadFiles/error_temp_Image.png'"/></a></li>
+						  	</c:if>
+						  	<c:if test="${i ne 0}">
+						  	  <li><a data-target="#pic-${i}" data-toggle="tab"><img src="${fileName}" onerror="this.src='/images/uploadFiles/error_temp_Image.png'"/></a></li>
+						  	</c:if>
+						  	<c:set var="i" value="${i+1}"/>
+						  </c:forEach>
+						</ul>
+						
+					</div>
+					<div class="details col-md-6">
+						<h3 class="product-title">${product.prodName }</h3>
+						<div class="rating">
+						
+							<div class="star-rating">
+								<span style="width:${avgRating}%;"></span>
+							</div>
+							
+							<span class="review-no">${reviewCount } reviews</span>
+							
+						</div>
+						<p class="product-description">${product.prodDetail }</p>
+						<h4 class="price"> price: <span>${product.price }&nbsp;<span class="fa fa-krw"></span></span></h4> 
+						<h5 class="stock"> stock : ${product.stock}  </h5>
+						<div class="action">
+							<c:if test="${empty sessionScope.user}">
+								<button class="btn btn-info btn-lg" type="button" id="login">로그인이 필요합니다.</button>
+							</c:if>
+							<c:if test="${user.role eq 'admin' && product.stock > 0}">
+								<button id="updateProduct" class="add-to-cart btn btn-default" type="button">수정</button>
+								<button id="deleteProduct" class="buy btn btn-default" type="button">삭제</button>
+							</c:if>
+							<c:if test="${user.role eq 'user' && product.stock > 0}">
+								<button id="add-to-cart" class="add-to-cart btn btn-default" type="button">add to cart</button>
+								<button id="buy" class="buy btn btn-default" type="button">buy</button>
+							</c:if>
+							<c:if test="${!empty sessionScope.user && !(user.role eq 'user' && product.stock > 0)}">
+								<button class="btn btn-danger btn-lg" type="button" disabled="disabled">현재 품절된 상품 입니다.</button>
+							</c:if>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%----------------------------- 상세 정보 출력 끝 --------------------------------------%>
+	
+	
 	
 	<!-- 리뷰 출력 -->
 	<br/><br/>

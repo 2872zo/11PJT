@@ -61,19 +61,19 @@
 		});	
 		
 		$("a:contains('배송출발')").on("click",function(){
-			fncUpdatePurchaseCode($(this).parent(),tranNoList[$($("td",$(this).parent().parent())[0]).text()-1], 2);
+			fncUpdatePurchaseCode($(this),tranNoList[$($("td",$(this).parent().parent())[0]).text()-1], 2);
 		});
 		
 		$("a:contains('수취확인')").on("click",function(){
-			fncUpdatePurchaseCode($(this).parent(),tranNoList[$($("td",$(this).parent().parent())[0]).text()-1], 3)
+			fncUpdatePurchaseCode($(this),tranNoList[$($("td",$(this).parent().parent())[0]).text()-1], 3)
 		});
 		
 		$("a:contains('리뷰작성')").on("click",function(){
 			var clickObj = $(this).parent().parent();
-			var dataString = "/review/addReviewView.jsp?tranNo="+tranNoList[$($("td",$(this).parent().parent())[0]).text()-1]
-				+ "&prodNo=" + prodNoList[$($("td",$(this).parent().parent())[0]).text()-1] + "&userId='" + $($(clickObj.find('td')[2])).text() + "'";
+			var dataString = "/review/addReviewView.jsp?tranNo="+tranNoList[$($("td",clickObj)[0]).text()-1]
+				+ "&prodNo=" + prodNoList[$($("td",clickObj)[0]).text()-1] + "&userId='" + $($(clickObj.find('td')[1])).text() + "'";
 
-			alert(dataString);
+// 			alert(dataString);
 			
 			location.href = dataString;
 		});
@@ -104,14 +104,32 @@
 			   			console.log("no is " + [i] + ", value is " + data[i]);
 					}
 	
-		        	var appendString = data.text;
+		        	var appendString = new String();
+		        	if(data.fileName != null){
+			        	var fileNames = data.fileName.split(",");
+			        	alert(fileNames);
+			        	for(var i=0; i < fileNames.length; i++){
+			        		appendString += "<img src='/images/uploadFiles/"+fileNames[i]+"' style='width:270px;'/><br/>"; 
+			        	}
+		        	}
+		        	appendString += data.text;
 // 		        	for(i in data) {
 // 			   			appendString += [i] + " : " + data[i] + "<br/>";
 // 					}
 		        	
+		        	var title = data.title + "&nbsp;";
+		        	
+					for(var i = 0; i < 5; i++){
+						if(i < data.rating){
+							title += "<img alt='" + i + "' src='/images/star-on.png'/>";
+						}else{
+							title += "<img alt='" + i + "' src='/images/star-off.png'/>";
+						}
+					}
+		        	
 					$("#dialog").empty().append(appendString);
-					$(".ui-dialog-title").empty().append(data.title);
-					$( "#dialog" ).dialog( "option", "position", { my: "left top", at: "left bottom", of: target } );
+					$(".ui-dialog-title").empty().append(title);
+					$( "#dialog" ).dialog( "option", "position", { my: "left top", at: "right bottom", of: target } );
 					$( "#dialog" ).dialog( "open" );
 				}
 			});
@@ -140,7 +158,7 @@
 			fncGetList(${resultPage.beginUnitPage-1});
 		});
 		$(".page").on("click",function(){
-			alert($(this).text());
+// 			alert($(this).text());
 			fncGetList($(this).text());
 		});
 		$("#nextPage").on("click",function(){

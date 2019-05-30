@@ -29,7 +29,12 @@ function fncValidationCheck(){
 
 function fncGetList(currentPage){
 	$("input[name=currentPage]").val(currentPage);
-	$("input[name=hiddingEmptyStock]").val($(".hideOption").val());
+	$("input[name=hideOption]").val($(".hideOption").val());
+	if($(".hideOption").val() == 1){
+		$("input[name=hiddingEmptyStock]").val(true);
+	}else{
+		$("input[name=hiddingEmptyStock]").val(false);
+	}
 	
 	if(!fncValidationCheck()){
 		return;
@@ -47,7 +52,7 @@ function fncSortList(currentPage, sortCode){
 		return;
 	}
 
-	$("form").submit();
+	$("form").attr("method","POST").attr("action","/product/listProduct").submit();
 }
 
 function fncHiddingEmptyStock(currentPage, hiddingEmptyStock){
@@ -59,7 +64,7 @@ function fncHiddingEmptyStock(currentPage, hiddingEmptyStock){
 		return;
 	}
 
-	$("form").submit();
+	$("form").attr("method","POST").attr("action","/product/listProduct").submit();
 }
 
 

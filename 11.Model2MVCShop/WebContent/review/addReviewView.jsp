@@ -48,7 +48,7 @@
 			var tmp = $("[name=text]").val().replace(/(?:\r\n|\r|\n)/g, '<br/>');
 			$("[name=text]").val(tmp);
 			
-			alert($("[name=rating]").val());
+// 			alert($("[name=rating]").val());
 			$("form").attr("method" , "POST").attr("action" , "/review/addReview").submit();
 		}
 		
@@ -56,7 +56,7 @@
 		 $(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-			 $( "td.ct_btn01:contains('작성 완료')" ).on("click" , function() {
+			 $( "#add" ).on("click" , function() {
 				fncAddReview();
 			});
 		});	
@@ -66,7 +66,7 @@
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-			 $( "td.ct_btn01:contains('취소')" ).on("click" , function() {
+			 $( "#cancel" ).on("click" , function() {
 					//Debug..
 					//alert(  $( "td.ct_btn01:contains('취소')" ).html() );
 					$("form")[0].reset();
@@ -107,9 +107,9 @@
 		</div>
 	
 		<form class="form-horizontal" enctype="multipart/form-data">
-			<input type="hidden" name="tranNo" value="">
-			<input type="hidden" name="prodNo" value="">
-			<input type="hidden" name="userId" value="">
+			<input type="hidden" class="form-control" name="tranNo" value="">
+			<input type="hidden" class="form-control" name="prodNo" value="">
+			<input type="hidden" class="form-control" name="userId" value="">
 
 			<div class="form-group">
 				<label for="title" class="col-sm-offset-1 col-sm-3 control-label">제 목</label>

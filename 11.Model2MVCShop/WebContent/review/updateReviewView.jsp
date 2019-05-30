@@ -42,21 +42,19 @@
 	<script src="../javascript/CommonScript.js"></script>
 	<script type="text/javascript">
 		
-		function fncAddReview() {
+		function fncUpdateReview() {
 // 			$("[name=text]").val($("[name=text]").val().replace(/(?:\r\n|\r|\n)/g, '<br/>'));
 // 			alert("[name=text]");
 			var tmp = $("[name=text]").val().replace(/(?:\r\n|\r|\n)/g, '<br/>');
 			$("[name=text]").val(tmp);
 			
 			alert($("[name=rating]").val());
-			$("form").attr("method" , "POST").attr("action" , "/review/addReview").submit();
+			$("form").attr("method" , "POST").attr("action" , "/review/updateReview").submit();
 		}
 		
-		//==>"가입"  Event 연결
+		//==>"수정완료"  Event 연결
 		 $(function() {
-			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
-			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-			 $( "td.ct_btn01:contains('작성 완료')" ).on("click" , function() {
+			 $( "#update" ).on("click" , function() {
 				fncAddReview();
 			});
 		});	
@@ -66,8 +64,7 @@
 		$(function() {
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 			//==> 1 과 3 방법 조합 : $("tagName.className:filter함수") 사용함.	
-			 $( "td.ct_btn01:contains('취소')" ).on("click" , function() {
-					//Debug..
+			 $( "#cancel" ).on("click" , function() {
 					//alert(  $( "td.ct_btn01:contains('취소')" ).html() );
 					$("form")[0].reset();
 			});
@@ -86,9 +83,16 @@
         });
 		
 		$(function(){
-			$("[name=tranNo]").val(${param.tranNo});
-			$("[name=prodNo]").val(${param.prodNo});
-			$("[name=userId]").val(${param.userId});
+			$("[name=tranNo]").val(${review.tranNo});
+			$("[name=prodNo]").val(${review.prodNo});
+			$("[name=userId]").val(${review.userId});
+			$("[name=title]").val(${review.title});
+			$("[name=text]").val(${review.text});
+			$("[name=rating]").val(${review.rating});
+			$('div#star').raty({
+                score: ${review.rating}
+            )};
+            
 		});
 	</script>		
 	

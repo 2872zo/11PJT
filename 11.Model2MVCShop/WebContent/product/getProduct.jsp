@@ -47,7 +47,7 @@
 		$("input[name=manuDate]").val(${product.manuDate});
 		$("input[name=price]").val(${product.price});
 		
-		$("form").submit();
+		$("form").attr("method","POST").attr("action","/purchase/addPurchaseView").submit();
 	}
 	
 	function addCart(obj){

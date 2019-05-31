@@ -14,7 +14,7 @@ public class User {
 	private String ssn;
 	private String phone;
 	private String addr;
-	private String zonecode;
+	private String zoneCode;
 	private String firstAddress;
 	private String secondAddress;
 	private String email;
@@ -74,8 +74,8 @@ public class User {
 		}
 	}
 	public String getAddr() {
-		if(this.zonecode != null && this.firstAddress != null && this.secondAddress != null) {
-			return this.zonecode+","+this.firstAddress+","+this.secondAddress;
+		if(this.zoneCode != null && this.firstAddress != null && this.secondAddress != null) {
+			return this.zoneCode+","+this.firstAddress+","+this.secondAddress;
 		}else {
 			return addr;
 		}
@@ -84,7 +84,7 @@ public class User {
 		if(addr != null) {
 			String[] stringArray = addr.split(",");
 			if(stringArray.length > 1) {
-				setZonecode(stringArray[0]);
+				setZoneCode(stringArray[0]);
 				setFirstAddress(stringArray[1]);
 				setSecondAddress(stringArray[2]);
 			}else {
@@ -115,8 +115,8 @@ public class User {
 		return phone3;
 	}
 
-	public String getZonecode() {
-		return zonecode;
+	public String getZoneCode() {
+		return zoneCode;
 	}
 
 	public String getFirstAddress() {
@@ -127,8 +127,8 @@ public class User {
 		return secondAddress;
 	}
 
-	public void setZonecode(String zonecode) {
-		this.zonecode = zonecode;
+	public void setZoneCode(String zonecode) {
+		this.zoneCode = zonecode;
 	}
 
 	public void setFirstAddress(String firstAddress) {
@@ -142,7 +142,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", role=" + role
-				+ ", ssn=" + ssn + ", phone=" + phone + ", addr=" + addr + ", zonecode=" + zonecode + ", firstAddress="
+				+ ", ssn=" + ssn + ", phone=" + phone + ", addr=" + addr + ", zonecode=" + zoneCode + ", firstAddress="
 				+ firstAddress + ", secondAddress=" + secondAddress + ", email=" + email + ", regDate=" + regDate
 				+ ", phone1=" + phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + "]";
 	}

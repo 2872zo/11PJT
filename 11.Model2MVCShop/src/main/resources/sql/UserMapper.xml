@@ -9,14 +9,14 @@
  	
 	<resultMap id="userSelectMap" type="user">
 		<result property="userId" 			column="user_id" 			jdbcType="VARCHAR"/>
-		<result property="userName"	column="user_name" 		jdbcType="VARCHAR" />
-		<result property="password" 	column="password" 		jdbcType="VARCHAR" />
-		<result property="role" 				column="role" 					jdbcType="VARCHAR" />
-		<result property="ssn" 				column="ssn" 					jdbcType="VARCHAR" />
+		<result property="userName"			column="user_name" 			jdbcType="VARCHAR" />
+		<result property="password" 		column="password" 			jdbcType="VARCHAR" />
+		<result property="role" 			column="role" 				jdbcType="VARCHAR" />
+		<result property="ssn" 				column="ssn" 				jdbcType="VARCHAR" />
 		<result property="phone" 			column="cell_phone" 		jdbcType="VARCHAR" />
-		<result property="addr" 				column="addr" 					jdbcType="VARCHAR" />
+		<result property="addr" 			column="addr" 				jdbcType="VARCHAR" />
 		<result property="email" 			column="email" 				jdbcType="NUMERIC"  />
-		<result property="regDate" 		column="reg_date" 			jdbcType="DATE" />
+		<result property="regDate" 			column="reg_date" 			jdbcType="DATE" />
 	</resultMap>
 	
 	<!-- SQL : INSERT -->
@@ -41,8 +41,8 @@
 	   	<set>
 	   		user_name 	= #{userName} ,
 			cell_phone	= #{phone},
-			addr 				= #{addr} ,
-			email				=	#{email}
+			addr 		= #{addr} ,
+			email		= #{email}
 	   	</set>
 	   	WHERE user_id = #{userId}
 	 </update>

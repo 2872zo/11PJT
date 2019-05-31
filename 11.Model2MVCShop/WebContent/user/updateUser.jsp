@@ -23,6 +23,7 @@
 	
 	<!-- Bootstrap Dropdown Hover CSS -->
    <link href="/css/animate.min.css" rel="stylesheet">
+   
    <link href="/css/bootstrap-dropdownhover.min.css" rel="stylesheet">
    
     <!-- Bootstrap Dropdown Hover JS -->
@@ -36,6 +37,7 @@
     </style>
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
+     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js?autoload=false"></script>
 	<script type="text/javascript">
 	
 		//============= "수정"  Event 연결 =============
@@ -91,7 +93,28 @@
 				
 			$("form").attr("method" , "POST").attr("action" , "/user/updateUser").submit();
 		}
-	
+		
+		//daum 주소찾기 API
+		$(function(){
+			$("[name=zoneCode],[name=firstAddress]").on("click",function(){
+				daum.postcode.load(function(){
+					new daum.Postcode({
+				        oncomplete: function(data) {
+		// 		        	for(i in data) {
+		//  				   		console.log("no is " + [i] + ", value is " + data[i]);
+		// 					}
+		
+							$("[name=zoneCode]").val(data.zonecode);
+							if(data.userSelectedType == "J"){
+				        		$("[name=firstAddress]").val(data.jibunAddress);
+							}else{
+								$("[name=firstAddress]").val(data.roadAddress);
+							}				
+				        }
+				    }).open();
+				});
+			});	
+		});
 	</script>
 	
 </head>
@@ -144,12 +167,22 @@
 		    </div>
 		  </div>
 		  
+<!-- 		  <div class="form-group"> -->
+<!-- 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">주소</label> -->
+<!-- 		    <div class="col-sm-4"> -->
+<%-- 		      <input type="text" class="form-control" id="addr" name="addr"  value="${user.addr}" placeholder="변경주소"> --%>
+<!-- 		    </div> -->
+<!-- 		  </div> -->
+		  
 		  <div class="form-group">
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">주소</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control" id="addr" name="addr"  value="${user.addr}" placeholder="변경주소">
+		      	<input 	type="text" class="dlvyAddr form-control" name="zoneCode" style="width: 100px;" readonly="readonly" placeholder="우편번호" value="${user.zoneCode}"/>
+				<input 	type="text" class="dlvyAddr form-control" name="firstAddress" readonly="readonly" placeholder="기본 주소" value="${user.firstAddress}"/>
+				<input 	type="text" class="dlvyAddr form-control" name="secondAddress" maxLength="20" placeholder="상세 주소" value="${user.secondAddress}"/>
 		    </div>
 		  </div>
+		  
 		  
 		  <div class="form-group">
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">휴대전화번호</label>

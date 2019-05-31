@@ -13,7 +13,7 @@ public class Purchase implements Cloneable{
 	private String receiverName;
 	private String receiverPhone;
 	private String dlvyAddr;
-	private String zonecode;
+	private String zoneCode;
 	private String firstAddress;
 	private String secondAddress;
 	private String dlvyRequest;
@@ -32,8 +32,8 @@ public class Purchase implements Cloneable{
 		this.buyer = buyer;
 	}
 	public String getDlvyAddr() {
-		if(this.zonecode != null && this.firstAddress != null && this.secondAddress != null) {
-			return this.zonecode+","+this.firstAddress+","+this.secondAddress;
+		if(this.zoneCode != null && this.firstAddress != null && this.secondAddress != null) {
+			return this.zoneCode+","+this.firstAddress+","+this.secondAddress;
 		}else {
 			return dlvyAddr;
 		}
@@ -114,7 +114,7 @@ public class Purchase implements Cloneable{
 	}
 	
 	public String getZonecode() {
-		return zonecode;
+		return zoneCode;
 	}
 
 	public String getFirstAddress() {
@@ -125,8 +125,8 @@ public class Purchase implements Cloneable{
 		return secondAddress;
 	}
 
-	public void setZonecode(String zonecode) {
-		this.zonecode = zonecode;
+	public void setZonecode(String zoneCode) {
+		this.zoneCode = zoneCode;
 	}
 
 	public void setFirstAddress(String firstAddress) {
@@ -167,7 +167,7 @@ public class Purchase implements Cloneable{
 		if(dlvyAddr != null) {
 			purchaseList.add("备概磊林家,"+dlvyAddr);
 		}else {
-			purchaseList.add("备概磊林家,快祈锅龋 :"+zonecode+"<br/>"+"林家 : " + firstAddress + " " + secondAddress);
+			purchaseList.add("备概磊林家,快祈锅龋 :"+zoneCode+"<br/>"+"林家 : " + firstAddress + " " + secondAddress);
 		}
 		purchaseList.add("备概夸没荤亲,"+dlvyRequest);
 		purchaseList.add("硅价锐噶老,"+dlvyDate);

@@ -137,12 +137,12 @@
 		$( "#datepicker" ).datepicker( "option", "dateFormat", "yy-mm-dd" );
 		
 		//林家 涝仿
-		$("[name=zonecode],[name=firstAddress]").on("click",function(){
+		$("[name=zoneCode],[name=firstAddress]").on("click",function(){
 			daum.postcode.load(function(){
 				new daum.Postcode({
 			        oncomplete: function(data) {
 //	 		        	console.log("data : " + data.address);
-						$("[name=zonecode]").val(data.zonecode);
+						$("[name=zoneCode]").val(data.zoneCode);
 						if(data.userSelectedType == "J"){
 			        		$("[name=firstAddress]").val(data.jibunAddress);
 						}else{
@@ -247,9 +247,9 @@
 		  <div class="form-group">
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">林家</label>
 		    <div class="col-sm-4">
-		      	<input 	type="text" class="dlvyAddr form-control" name="zonecode" style="width: 100px;" readonly="readonly" placeholder="快祈锅龋"/>
-				<input 	type="text" class="dlvyAddr form-control" name="firstAddress" readonly="readonly" placeholder="扁夯 林家"/>
-				<input 	type="text" class="dlvyAddr form-control" name="secondAddress" maxLength="20" placeholder="惑技 林家"/>
+		      	<input 	type="text" class="dlvyAddr form-control" name="zoneCode" 	   readonly="readonly" 	placeholder="快祈锅龋" style="width: 100px;"/>
+				<input 	type="text" class="dlvyAddr form-control" name="firstAddress"  readonly="readonly" 	placeholder="扁夯 林家"/>
+				<input 	type="text" class="dlvyAddr form-control" name="secondAddress" maxLength="20" 		placeholder="惑技 林家"/>
 		    </div>
 		  </div>
 		  

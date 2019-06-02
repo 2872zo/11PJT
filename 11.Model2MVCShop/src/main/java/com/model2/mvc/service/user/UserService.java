@@ -23,5 +23,6 @@ public interface UserService {
 	
 	// 회원 ID 중복 확인
 	public boolean checkDuplication(String userId) throws Exception;
-	
+
+	public User getUserByKakao(String kakao) throws Exception;
 }

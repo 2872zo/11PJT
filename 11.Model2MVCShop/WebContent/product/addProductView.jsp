@@ -74,7 +74,7 @@
 			return;
 		}
 		
-		alert($("form").serialize());
+// 		alert($("form").serialize());
 
 		$("form").attr("method","POST").attr("action","/product/addProduct").submit();
 	}

@@ -54,9 +54,9 @@
 		UPDATE
 		review
 		<set>
-			<if test="title != null">title = #{title}</if>
-			<if test="text != null">text = #{text}</if>
-			<if test="image_file != null">image_file = #{fileName}</if>
+			<if test="title != null">title = #{title},</if>
+			<if test="text != null">text = #{text},</if>
+			<if test="fileName != null">image_file = #{fileName},</if>
 			<if test="rating != null">rating = #{rating}</if>
 		</set> 
 		WHERE review_no = #{reviewNo}

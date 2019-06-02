@@ -43,11 +43,15 @@ public class UserController {
 	
 	
 	@RequestMapping( value="addUser", method=RequestMethod.GET )
-	public String addUser() throws Exception{
+	public String addUser(@RequestParam(value="kakao",required = false) String kakao) throws Exception{
 	
 		System.out.println("/user/addUser : GET");
-		
-		return "redirect:/user/addUserView.jsp";
+		if(kakao ==null) {
+			return "redirect:/user/addUserView.jsp";
+		}
+		else {
+			return "forward:/user/addUserView.jsp";
+		}
 	}
 	
 	@RequestMapping( value="addUser", method=RequestMethod.POST )
@@ -120,6 +124,18 @@ public class UserController {
 		if( user.getPassword().equals(dbUser.getPassword())){
 			session.setAttribute("user", dbUser);
 		}
+		
+		return "redirect:/index.jsp";
+	}
+	
+	@RequestMapping( value="loginByKakao", method=RequestMethod.GET )
+	public String loginByKakao(@RequestParam("kakao") String kakao , HttpSession session ) throws Exception{
+		
+		System.out.println("/user/login : POST");
+		//Business Logic
+		User dbUser = userService.getUserByKakao(kakao);
+		
+		session.setAttribute("user", dbUser);
 		
 		return "redirect:/index.jsp";
 	}

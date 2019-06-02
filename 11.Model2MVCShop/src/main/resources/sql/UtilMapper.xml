@@ -25,7 +25,7 @@
 	<update id="updateData" parameterType="map">
 		UPDATE
 		${tableName}
-		SET	${setColum} = ${setValue}
-		WHERE ${whereColum} = ${whereValue}
+		SET	${setColum} = #{setValue}
+		WHERE ${whereColum} = #{whereValue}
 	</update>
 </mapper>

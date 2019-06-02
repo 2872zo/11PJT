@@ -38,6 +38,10 @@ public class UserDaoImpl implements UserDao{
 		return sqlSession.selectOne("UserMapper.getUser", userId);
 	}
 	
+	public User getUserByKakao(String kakao) throws Exception {
+		return sqlSession.selectOne("UserMapper.getUserByKakao", kakao);
+	}
+	
 	public void updateUser(User user) throws Exception {
 		sqlSession.update("UserMapper.updateUser", user);
 	}
@@ -50,4 +54,5 @@ public class UserDaoImpl implements UserDao{
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("UserMapper.getTotalCount", search);
 	}
+
 }

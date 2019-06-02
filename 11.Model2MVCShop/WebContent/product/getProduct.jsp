@@ -90,6 +90,31 @@
 			
 		});
 		
+		$(".updateReview").on("click",function(){
+// 			alert($($(this).parent().parent().prev().find("td")[0]).text().trim());
+			var reviewNo = $($(this).parent().parent().prev().find("td")[0]).text().trim();
+			var reviewUser = $($(this).parent().parent().prev().find("td")[2]).text().trim();
+			
+// 			alert(reviewUser);
+			
+			if(reviewUser == "${user.userId}" || "admin" == "${user.userId}"){
+				var url = "/review/updateReviewView?reviewNo="+reviewNo;
+			}else{
+				alert("작성자만 수정할수있습니다.");
+				return;
+			}
+			
+			location.href = url;
+		});
+		
+		$(".deleteReview").on("click",function(){
+			var reviewNo = $($(this).parent().parent().prev().find("td")[0]).text().trim();
+			
+			if(confirm("삭제하시겠습니까?")==true){
+				var url = "/review/deleteReview?reviewNo="+reviewNo;
+				location.href = url;
+			}
+		});
 		
 		$("#updateProduct").on("click",function(){
 			location.href ="/product/updateProductView?prodNo=${product.prodNo}";
@@ -190,7 +215,7 @@
 							<c:if test="${empty sessionScope.user}">
 								<button class="btn btn-info btn-lg" type="button" id="login">로그인이 필요합니다.</button>
 							</c:if>
-							<c:if test="${user.role eq 'admin' && product.stock > 0}">
+							<c:if test="${user.role eq 'admin'}">
 								<button id="updateProduct" class="add-to-cart btn btn-default" type="button">수정</button>
 								<button id="deleteProduct" class="buy btn btn-default" type="button">삭제</button>
 							</c:if>
@@ -198,7 +223,7 @@
 								<button id="add-to-cart" class="add-to-cart btn btn-default" type="button">add to cart</button>
 								<button id="buy" class="buy btn btn-default" type="button">buy</button>
 							</c:if>
-							<c:if test="${!empty sessionScope.user && !(user.role eq 'user' && product.stock > 0)}">
+							<c:if test="${!empty sessionScope.user && !(product.stock > 0)}">
 								<button class="btn btn-danger btn-lg" type="button" disabled="disabled">현재 품절된 상품 입니다.</button>
 							</c:if>
 						</div>
@@ -213,11 +238,11 @@
 	
 	<!-- 리뷰 출력 -->
 	<br/><br/>
-	<div class="review">
-		<c:import url="/common/listPrinter.jsp"/>
-	</div>
 	
 </form>
+<div class="review">
+	<c:import url="/common/listPrinter.jsp"/>
+</div>
 
 </body>
 </html>

@@ -101,6 +101,17 @@ public class PurchaseRestController {
 		return true;
 	}
 	
+	@RequestMapping("json/deleteCart/{prodNo}")
+	public boolean deleteCart(@PathVariable(value = "prodNo")int prodNo,HttpSession session) throws Exception {
+		Search search = new Search();
+		search.setUserId(((User)session.getAttribute("user")).getUserId());
+		search.setProdNo(prodNo);
+				
+		purchaseService.deleteCart(search);
+		
+		return true;
+	}
+	
 	private List makePurchaseList(int currentPage, List<Purchase> purchaseList, User user) {
 
 		List<List> unitList = new Vector<List>();

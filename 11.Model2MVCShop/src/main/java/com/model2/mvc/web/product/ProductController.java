@@ -68,8 +68,8 @@ public class ProductController {
 		if(files!=null && files.length > 0) {
 			String fileName = null;
 			for (MultipartFile file : files) {
-				fileName = (fileName != null ? fileName+"," : "") + file.getOriginalFilename();
-				String originFileName = file.getOriginalFilename();
+				fileName = (fileName != null ? fileName+"," : "") + System.currentTimeMillis();
+				String originFileName = String.valueOf(System.currentTimeMillis());
 				File target = new File(savePath, originFileName);
 				
 				if(!fileName.equals("")) {
@@ -140,7 +140,7 @@ public class ProductController {
 			result += reviewList.get(i).getText();
 //			System.out.println("resultString : " + result);
 			
-			result += "<br/><button class='btn btn-default pull-right'>수정</button>&nbsp;<button class='btn btn-default pull-right'>삭제</button>";
+			result += "<br/><button class='btn btn-default pull-right updateReview'>수정</button>&nbsp;<button class='btn btn-default pull-right deleteReview'>삭제</button>";
 			
 			unitDetail = new Vector<String>();
 			unitDetail.add(result);

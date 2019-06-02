@@ -375,22 +375,11 @@ public class PurchaseController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("deleteCart")
-	public void deleteCart(@RequestParam("prodNo") int prodNo,HttpSession session) throws Exception {
-		Search search = new Search();
-		search.setUserId(((User)session.getAttribute("user")).getUserId());
-		search.setProdNo(prodNo);
-				
-		purchaseService.deleteCart(search);
-	}
-	
-
-	
 	@RequestMapping("addPurchaseByCart")
-	public void addPurchaseByCart(@ModelAttribute("purchase") Purchase purchase,@RequestParam("jsonData") String jsonData,
+	public boolean addPurchaseByCart(@ModelAttribute("purchase") Purchase purchase,@RequestParam("jsonData") String jsonData,
 			HttpSession session) throws Exception{
-		System.out.println(purchase);
-		System.out.println(jsonData);
+		System.out.println("purchase = " + purchase);
+		System.out.println("jsonData = " + jsonData);
 		
 //		JSONArray jsonObject = (JSONArray)JSONValue.parse(jsonData);
 //		System.out.println("jsonObject : " + jsonObject);
@@ -409,6 +398,8 @@ public class PurchaseController {
 		}
 	
 		purchaseService.addPurchaseByCart(purchaseList);
+		
+		return true;
 	}
 	
 	private List makeProductList(List<Product> productList) {

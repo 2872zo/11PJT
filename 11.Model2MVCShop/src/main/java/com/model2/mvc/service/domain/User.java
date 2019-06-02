@@ -23,6 +23,8 @@ public class User {
 	private String phone1;
 	private String phone2;
 	private String phone3;
+	///////////////////////////////////////////////
+	private String kakao;
 
 	
 	
@@ -80,6 +82,7 @@ public class User {
 			return addr;
 		}
 	}
+	
 	public void setAddr(String addr) {
 		if(addr != null) {
 			String[] stringArray = addr.split(",");
@@ -127,8 +130,8 @@ public class User {
 		return secondAddress;
 	}
 
-	public void setZoneCode(String zonecode) {
-		this.zoneCode = zonecode;
+	public void setZoneCode(String zoneCode) {
+		this.zoneCode = zoneCode;
 	}
 
 	public void setFirstAddress(String firstAddress) {
@@ -138,13 +141,23 @@ public class User {
 	public void setSecondAddress(String secondAddress) {
 		this.secondAddress = secondAddress;
 	}
+	
+	
+
+	public String getKakao() {
+		return kakao;
+	}
+
+	public void setKakao(String kakao) {
+		this.kakao = kakao;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", role=" + role
-				+ ", ssn=" + ssn + ", phone=" + phone + ", addr=" + addr + ", zonecode=" + zoneCode + ", firstAddress="
+				+ ", ssn=" + ssn + ", phone=" + phone + ", addr=" + addr + ", zoneCode=" + zoneCode + ", firstAddress="
 				+ firstAddress + ", secondAddress=" + secondAddress + ", email=" + email + ", regDate=" + regDate
-				+ ", phone1=" + phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + "]";
+				+ ", phone1=" + phone1 + ", phone2=" + phone2 + ", phone3=" + phone3 + ", kakao=" + kakao + "]";
 	}
 
 }

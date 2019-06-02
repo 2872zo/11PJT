@@ -55,7 +55,7 @@
 		//==>"수정완료"  Event 연결
 		 $(function() {
 			 $( "#update" ).on("click" , function() {
-				fncAddReview();
+				 fncUpdateReview();
 			});
 		});	
 		
@@ -73,7 +73,7 @@
 		//별점 플러그인 옵션
 		$(function() {
             $('div#star').raty({
-                score: 3
+                score: ${review.rating}
                 ,path : "/images"
                 ,width : 200
                 ,click: function(score, evt) {
@@ -83,16 +83,19 @@
         });
 		
 		$(function(){
+			$("[name=reviewNo]").val(${review.reviewNo});
 			$("[name=tranNo]").val(${review.tranNo});
 			$("[name=prodNo]").val(${review.prodNo});
-			$("[name=userId]").val(${review.userId});
-			$("[name=title]").val(${review.title});
-			$("[name=text]").val(${review.text});
+			$("[name=userId]").val("${review.userId}");
+			$("[name=title]").val("${review.title}");
 			$("[name=rating]").val(${review.rating});
-			$('div#star').raty({
-                score: ${review.rating}
-            )};
-            
+			
+			var text = "${review.text}";
+			text = text.replace(/<br\/>/gi, "\r\n");
+			
+// 			alert(text);
+			
+			$("[name=text]").val(text);
 		});
 	</script>		
 	
@@ -111,6 +114,7 @@
 		</div>
 	
 		<form class="form-horizontal" enctype="multipart/form-data">
+			<input type="hidden" name="reviewNo" value="">
 			<input type="hidden" name="tranNo" value="">
 			<input type="hidden" name="prodNo" value="">
 			<input type="hidden" name="userId" value="">

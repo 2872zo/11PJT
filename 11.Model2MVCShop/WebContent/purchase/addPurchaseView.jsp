@@ -38,7 +38,7 @@
 
 <script type="text/javascript">
 $(function(){
-	$("[name=zonecode],[name=firstAddress]").on("click",function(){
+	$("[name=zoneCode],[name=firstAddress]").on("click",function(){
 		daum.postcode.load(function(){
 			new daum.Postcode({
 		        oncomplete: function(data) {
@@ -46,7 +46,7 @@ $(function(){
 //  				   		console.log("no is " + [i] + ", value is " + data[i]);
 // 					}
 
-					$("[name=zonecode]").val(data.zonecode);
+					$("[name=zoneCode]").val(data.zoneCode);
 					if(data.userSelectedType == "J"){
 		        		$("[name=firstAddress]").val(data.jibunAddress);
 					}else{
@@ -216,7 +216,7 @@ function fncAddPurchase() {
 			<div class="form-group">
 			    <label class="col-sm-offset-1 col-sm-3 control-label">备概磊 林家</label>
 			    <div class="col-sm-4">
-			    	<input 	type="text" class="dlvyAddr form-control" name="zonecode" 	   value="${user.zoneCode}" 		placeholder="快祈锅龋" readonly="readonly"/>
+			    	<input 	type="text" class="dlvyAddr form-control" name="zoneCode" 	   value="${user.zoneCode}" 		placeholder="快祈锅龋" readonly="readonly"/>
 					<input 	type="text" class="dlvyAddr form-control" name="firstAddress"  value="${user.firstAddress}" 	placeholder="扁夯林家" readonly="readonly"/>
 					<input 	type="text" class="dlvyAddr form-control" name="secondAddress" value="${user.secondAddress}" 	placeholder="惑技林家"/>
 				</div>

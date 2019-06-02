@@ -27,8 +27,48 @@
     </style>
     
     <!--  ///////////////////////// JavaScript ////////////////////////// -->
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script src="/javascript/CommonScript.js"></script>
 	<script type="text/javascript">
-
+		//===============카카오 로그인=====================
+		$(function(){
+			 // 사용할 앱의 JavaScript 키를 설정해 주세요.
+		    Kakao.init('654a6ed2c467856336978af7f4c590bf');
+		    // 카카오 로그인 버튼을 생성합니다.
+		    Kakao.Auth.createLoginButton({
+		      container: '#kakao-login-btn',
+		      success: function(authObj) {
+		        // 로그인 성공시, API를 호출합니다.
+		        Kakao.API.request({
+		          url: '/v2/user/me',
+		          success: function(res) {
+// 		            alert(JSON.stringify(res));
+		            ValidationCheck("users", "kakao", "kakao", res.id, function(result){
+		            	if(result == "false"){
+		            		var url = "/user/loginByKakao?kakao="+res.id;
+		            		location.href = url;
+		            	}else{
+// 		            		alert("기존유저에 없는 키 ");
+		            		var url = "/user/addUser?kakao="+res.id;
+		            		location.href = url;
+		            	}
+		            	
+		            	
+		            });
+		          },
+		          fail: function(error) {
+		            alert(JSON.stringify(error));
+		          }
+		        });
+		      },
+		      fail: function(err) {
+		        alert(JSON.stringify(err));
+		      }
+		    });
+		});
+	   
+    
+    
 		//============= "로그인"  Event 연결 =============
 		$( function() {
 			
@@ -114,9 +154,10 @@
 					    <div class="col-sm-offset-4 col-sm-6 text-center">
 					      <button type="button" class="btn btn-primary"  >로 &nbsp;그 &nbsp;인</button>
 					      <a class="btn btn-primary btn" href="#" role="button">회 &nbsp;원 &nbsp;가 &nbsp;입</a>
+					      <a id="kakao-login-btn"></a>
 					    </div>
 					  </div>
-			
+					  
 					</form>
 			   	 </div>
 			
@@ -127,7 +168,6 @@
   	 	
  	</div>
  	<!--  화면구성 div end /////////////////////////////////////-->
-
 </body>
 
 </html>

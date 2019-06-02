@@ -68,7 +68,7 @@
 			fncUpdatePurchaseCode($(this),tranNoList[$($("td",$(this).parent().parent())[0]).text()-1], 3)
 		});
 		
-		$("a:contains('리뷰작성')").on("click",function(){
+		$(document).on("click","a:contains('리뷰작성')",function(){
 			var clickObj = $(this).parent().parent();
 			var dataString = "/review/addReviewView.jsp?tranNo="+tranNoList[$($("td",clickObj)[0]).text()-1]
 				+ "&prodNo=" + prodNoList[$($("td",clickObj)[0]).text()-1] + "&userId='" + $($(clickObj.find('td')[1])).text() + "'";
@@ -113,6 +113,8 @@
 			        	}
 		        	}
 		        	appendString += data.text;
+		        	appendString += "<input type='hidden' id='reviewNo' name='reviewNo' value='" + data.reviewNo + "'/>";
+		        	appendString += "<br/><button class='btn btn-default pull-right updateReview'>수정</button>&nbsp;<button class='btn btn-default pull-right deleteReview'>삭제</button>";
 // 		        	for(i in data) {
 // 			   			appendString += [i] + " : " + data[i] + "<br/>";
 // 					}
@@ -133,6 +135,22 @@
 					$( "#dialog" ).dialog( "open" );
 				}
 			});
+		});
+		
+		$(document).on("click",".updateReview",function(){
+			var reviewNo = $(this).parent().find("#reviewNo").val();
+			var url = "/review/updateReviewView?reviewNo="+reviewNo;
+			
+			location.href = url;
+		});
+		
+		$(document).on("click",".deleteReview",function(){
+			var reviewNo = $(this).parent().find("#reviewNo").val();
+			
+			if(confirm("삭제하시겠습니까?")==true){
+				var url = "/review/deleteReview?reviewNo="+reviewNo;
+				location.href = url;
+			}
 		});
 		
 		$(".sort").on("click",function(){

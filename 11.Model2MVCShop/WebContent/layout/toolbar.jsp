@@ -56,7 +56,7 @@
 		                     </a>
 		                     <ul class="dropdown-menu">
 		                         <li><a href="#">판매상품등록</a></li>
-		                         <li><a href="#">판매상품관리</a></li>
+		                         <li><a href="#">판매상품보기</a></li>
 		                     </ul>
 		                </li>
 	                 </c:if>
@@ -92,7 +92,7 @@
 	             </ul>
 
 	             <ul class="nav navbar-nav navbar-right">
-	             	<li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
+	             	<li><a href="#" id="cart"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
 	                <li><a href="#">로그아웃</a></li>
 	            </ul>
 		</div>
@@ -155,8 +155,7 @@
 	 		 	
 ///////////////////////////////////////toolbar right////////////////////////////////////////
 	 	//=============  장바구니 Event  처리 =============	
-	 	$( ".glyphicon-shopping-cart" ).on("click" , function() {
-	 		//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
+	 	$( "#cart" ).on("click" , function() {
 			$(self.location).attr("href","/purchase/viewCart");
 		});
 	 	

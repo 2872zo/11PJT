@@ -57,14 +57,15 @@
 		var queryString = $("form").serialize();
 		queryString += "&jsonData="+JSON.stringify(productArray);
 		
+		alert(queryString);
+		
 		$.ajax(
 				{
 					url : "/purchase/addPurchaseByCart",
 					method : "POST",
 					data : queryString,
-					dataType : "json",
 					error:function(status){
-						alert("error : " + status);
+						alert("error : " + JSON.stringify(status));
 					},
 					success : function() {
 						for(var i = 0; i < $(".listcheckbox:checkbox:checked").length; i++){
@@ -77,15 +78,19 @@
 	}	
 	
 	function deleteCart(obj){
+		var prodNo = $(obj.children()[2]).text().trim();
+// 		alert(prodNo);
+		
  		$.ajax(
 				{
-					url : "/purchase/deleteCart",
-					data : {
-						prodNo : $(obj.children()[4]).text().trim()
-					},
+					url : "/purchase/json/deleteCart/"+prodNo,
+					method : "GET",
 					dataType : "json",
 					success : function() {
 						obj.remove();
+					},
+					error : function(data){
+						alert("error : " + JSON.stringify(data));
 					}
 				}
 		);
@@ -142,7 +147,7 @@
 				new daum.Postcode({
 			        oncomplete: function(data) {
 //	 		        	console.log("data : " + data.address);
-						$("[name=zoneCode]").val(data.zoneCode);
+						$("[name=zoneCode]").val(data.zonecode);
 						if(data.userSelectedType == "J"){
 			        		$("[name=firstAddress]").val(data.jibunAddress);
 						}else{
@@ -175,7 +180,7 @@
 			countCheckBox();
 		});
 		
-		$("table tr td:nth-child(6)").on("click",function(){
+		$(".table-body td:nth-child(7)").on("click",function(){
 			deleteCart($(this).parent());
 		});
 		
@@ -250,6 +255,13 @@
 		      	<input 	type="text" class="dlvyAddr form-control" name="zoneCode" 	   readonly="readonly" 	placeholder="우편번호" style="width: 100px;"/>
 				<input 	type="text" class="dlvyAddr form-control" name="firstAddress"  readonly="readonly" 	placeholder="기본 주소"/>
 				<input 	type="text" class="dlvyAddr form-control" name="secondAddress" maxLength="20" 		placeholder="상세 주소"/>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="dlvyRequest" class="col-sm-offset-1 col-sm-3 control-label">배송 요청 사항</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="dlvyRequest" name="dlvyRequest">
 		    </div>
 		  </div>
 		  

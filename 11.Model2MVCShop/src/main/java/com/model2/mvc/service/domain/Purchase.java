@@ -12,6 +12,9 @@ public class Purchase implements Cloneable{
 	private String paymentOption;
 	private String receiverName;
 	private String receiverPhone;
+	private String phone1;
+	private String phone2;
+	private String phone3;
 	private String dlvyAddr;
 	private String zoneCode;
 	private String firstAddress;
@@ -42,7 +45,7 @@ public class Purchase implements Cloneable{
 		if(dlvyAddr != null) {
 			String[] stringArray = dlvyAddr.split(",");
 			if(stringArray.length > 1) {
-				setZonecode(stringArray[0]);
+				setZoneCode(stringArray[0]);
 				setFirstAddress(stringArray[1]);
 				setSecondAddress(stringArray[2]);
 			}else {
@@ -87,7 +90,11 @@ public class Purchase implements Cloneable{
 		this.receiverName = receiverName;
 	}
 	public String getReceiverPhone() {
-		return receiverPhone;
+		if(this.phone1 != null && this.phone2 != null && this.phone3 != null) {
+			return this.phone1+","+this.phone2+","+this.phone3;
+		}else {
+			return receiverPhone;
+		}
 	}
 	public void setReceiverPhone(String receiverPhone) {
 		this.receiverPhone = receiverPhone;
@@ -113,7 +120,7 @@ public class Purchase implements Cloneable{
 		this.quantity = quantity;
 	}
 	
-	public String getZonecode() {
+	public String getZoneCode() {
 		return zoneCode;
 	}
 
@@ -125,7 +132,7 @@ public class Purchase implements Cloneable{
 		return secondAddress;
 	}
 
-	public void setZonecode(String zoneCode) {
+	public void setZoneCode(String zoneCode) {
 		this.zoneCode = zoneCode;
 	}
 
@@ -136,13 +143,38 @@ public class Purchase implements Cloneable{
 	public void setSecondAddress(String secondAddress) {
 		this.secondAddress = secondAddress;
 	}
+	
+	public String getPhone1() {
+		return phone1;
+	}
+
+	public String getPhone2() {
+		return phone2;
+	}
+
+	public String getPhone3() {
+		return phone3;
+	}
+
+	public void setPhone1(String phone1) {
+		this.phone1 = phone1;
+	}
+
+	public void setPhone2(String phone2) {
+		this.phone2 = phone2;
+	}
+
+	public void setPhone3(String phone3) {
+		this.phone3 = phone3;
+	}
 
 	@Override
 	public String toString() {
-		return "Purchase [buyer=" + buyer + ", dlvyAddr=" + dlvyAddr + ", dlvyDate=" + dlvyDate + ", dlvyRequest="
-				+ dlvyRequest + ", orderDate=" + orderDate + ", paymentOption=" + paymentOption + ", purchaseProd="
-				+ purchaseProd + ", receiverName=" + receiverName + ", receiverPhone=" + receiverPhone + ", tranCode="
-				+ tranCode + ", tranNo=" + tranNo + "]";
+		return "Purchase [tranNo=" + tranNo + ", purchaseProd=" + purchaseProd + ", buyer=" + buyer + ", paymentOption="
+				+ paymentOption + ", receiverName=" + receiverName + ", receiverPhone=" + receiverPhone + ", dlvyAddr="
+				+ dlvyAddr + ", zoneCode=" + zoneCode + ", firstAddress=" + firstAddress + ", secondAddress="
+				+ secondAddress + ", dlvyRequest=" + dlvyRequest + ", tranCode=" + tranCode + ", orderDate=" + orderDate
+				+ ", dlvyDate=" + dlvyDate + ", quantity=" + quantity + "]";
 	}
 	
 	public List<String> toList() {
@@ -163,7 +195,13 @@ public class Purchase implements Cloneable{
 		purchaseList.add("구매자아이디,"+buyer.getUserId());
 		purchaseList.add("구매방법,"+paymentString);
 		purchaseList.add("구매자이름,"+receiverName);
-		purchaseList.add("구매자연락처,"+receiverPhone);
+		
+		if(receiverPhone != null) {
+			purchaseList.add("구매자연락처,"+receiverPhone);
+		}else {
+			purchaseList.add("구매자연락처,"+phone1+phone2+phone3);
+		}
+		
 		if(dlvyAddr != null) {
 			purchaseList.add("구매자주소,"+dlvyAddr);
 		}else {
@@ -171,6 +209,7 @@ public class Purchase implements Cloneable{
 		}
 		purchaseList.add("구매요청사항,"+dlvyRequest);
 		purchaseList.add("배송희망일,"+dlvyDate);
+		purchaseList.add("구매 수량,"+quantity);
 		purchaseList.add("주문일,"+orderDate);
 		
 		return purchaseList;

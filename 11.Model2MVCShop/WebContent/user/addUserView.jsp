@@ -30,6 +30,10 @@
     
      <!--  ///////////////////////// JavaScript ////////////////////////// -->
 	<script type="text/javascript">
+		$(function(){
+			$("#kakao").val("${param.kakao}");
+		});
+	
 	
 		//============= "가입"  Event 연결 =============
 		 $(function() {
@@ -168,7 +172,7 @@
 		
 		//daum 주소찾기 API
 		$(function(){
-			$("[name=zonecode],[name=firstAddress]").on("click",function(){
+			$("[name=zoneCode],[name=firstAddress]").on("click",function(){
 				daum.postcode.load(function(){
 					new daum.Postcode({
 				        oncomplete: function(data) {
@@ -176,7 +180,7 @@
 		//  				   		console.log("no is " + [i] + ", value is " + data[i]);
 		// 					}
 		
-							$("[name=zonecode]").val(data.zonecode);
+							$("[name=zoneCode]").val(data.zonecode);
 							if(data.userSelectedType == "J"){
 				        		$("[name=firstAddress]").val(data.jibunAddress);
 							}else{
@@ -208,6 +212,7 @@
 		
 		<!-- form Start /////////////////////////////////////-->
 		<form class="form-horizontal">
+		  <input type="hidden" class="form-control" id="kakao" name="kakao">
 		
 		  <div class="form-group">
 		    <label for="userId" class="col-sm-offset-1 col-sm-3 control-label">아 이 디</label>
@@ -235,7 +240,7 @@
 		  <div class="form-group">
 		    <label for="userName" class="col-sm-offset-1 col-sm-3 control-label">이름</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control" id="userName" name="userName" placeholder="회원이름">
+		      <input type="text" class="form-control" id="userName" name="userName" placeholder="회원이름">
 		    </div>
 		  </div>
 		  
@@ -252,7 +257,7 @@
 		  <div class="form-group">
 		    <label for="ssn" class="col-sm-offset-1 col-sm-3 control-label">주소</label>
 		    <div class="col-sm-4">
-		      	<input 	type="text" class="dlvyAddr form-control" name="zonecode" style="width: 100px;" readonly="readonly" placeholder="우편번호"/>
+		      	<input 	type="text" class="dlvyAddr form-control" name="zoneCode" style="width: 100px;" readonly="readonly" placeholder="우편번호"/>
 				<input 	type="text" class="dlvyAddr form-control" name="firstAddress" readonly="readonly" placeholder="기본 주소"/>
 				<input 	type="text" class="dlvyAddr form-control" name="secondAddress" maxLength="20" placeholder="상세 주소"/>
 		    </div>
